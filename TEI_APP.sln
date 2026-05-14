@@ -2,6 +2,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neosmartpen.Net", "Windows-SDK2.0-master\Windows-SDK2.0-master\Neosmartpen.Net\Neosmartpen.Net.csproj", "{F74A67F4-3FD5-41B7-9CF2-6021E29EF40C}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tei_penServiceConnectionManager.Lib", "tei_penServiceConnectionManager.Lib\tei_penServiceConnectionManager.Lib.csproj", "{B2C3D4E5-F6A7-8901-BCDE-F12345678901}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tei_penService_ui", "tei_penService_ui\tei_penService_ui.csproj", "{F8469E1B-E6CE-42EA-A199-9F89BE4BF74D}"
@@ -12,6 +14,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F74A67F4-3FD5-41B7-9CF2-6021E29EF40C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F74A67F4-3FD5-41B7-9CF2-6021E29EF40C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F74A67F4-3FD5-41B7-9CF2-6021E29EF40C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F74A67F4-3FD5-41B7-9CF2-6021E29EF40C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B2C3D4E5-F6A7-8901-BCDE-F12345678901}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B2C3D4E5-F6A7-8901-BCDE-F12345678901}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2C3D4E5-F6A7-8901-BCDE-F12345678901}.Release|Any CPU.ActiveCfg = Release|Any CPU

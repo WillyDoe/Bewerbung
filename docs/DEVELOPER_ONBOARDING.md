@@ -44,7 +44,7 @@ msbuild tei_penService_ui\tei_penService_ui.csproj /p:Configuration=Debug
 .\tei_penService_ui\bin\Debug\tei_penService_ui.exe
 ```
 
-**Hinweis:** Für Bluetooth und Neosmartpen-Funktionen muss das Neosmartpen Windows SDK (Ordner `Windows-SDK2.0-master`) im Repository vorhanden sein; die UI referenziert die DLL daraus.
+**Hinweis:** Für Bluetooth und Neosmartpen-Funktionen muss das Neosmartpen Windows SDK (Ordner `Windows-SDK2.0-master`) im Repository vorhanden sein; `TEI_APP.sln` bindet `Neosmartpen.Net` per **Projektreferenz** ein (wird mit der Lösung gebaut, kein manueller `bin\Debug`-Build des SDK nötig).
 
 ---
 

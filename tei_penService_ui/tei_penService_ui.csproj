@@ -157,15 +157,16 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Windows-SDK2.0-master\Windows-SDK2.0-master\Neosmartpen.Net\Neosmartpen.Net.csproj">
+      <Project>{F74A67F4-3FD5-41B7-9CF2-6021E29EF40C}</Project>
+      <Name>Neosmartpen.Net</Name>
+    </ProjectReference>
     <ProjectReference Include="..\tei_penServiceConnectionManager.Lib\tei_penServiceConnectionManager.Lib.csproj">
       <Project>{B2C3D4E5-F6A7-8901-BCDE-F12345678901}</Project>
       <Name>tei_penServiceConnectionManager.Lib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Neosmartpen.Net">
-      <HintPath>..\Windows-SDK2.0-master\Windows-SDK2.0-master\Neosmartpen.Net\bin\Debug\Neosmartpen.Net.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>

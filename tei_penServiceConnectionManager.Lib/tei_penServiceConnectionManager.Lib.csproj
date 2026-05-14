@@ -94,12 +94,10 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Neosmartpen.Net">
-      <HintPath>..\Windows-SDK2.0-master\Windows-SDK2.0-master\Neosmartpen.Net\bin\Debug\Neosmartpen.Net.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\Windows-SDK2.0-master\Windows-SDK2.0-master\Neosmartpen.Net\bin\Debug\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\Windows-SDK2.0-master\Windows-SDK2.0-master\Neosmartpen.Net\Neosmartpen.Net.csproj">
+      <Project>{F74A67F4-3FD5-41B7-9CF2-6021E29EF40C}</Project>
+      <Name>Neosmartpen.Net</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
