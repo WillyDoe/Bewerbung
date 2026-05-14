@@ -139,7 +139,3 @@ Siehe dazu: tei_flow Prototypenheft
 - **Output**: Automatische Berichte für Eltern, Zeugnisse, Lernstandsdokumentation
 - **KI-Model**: Dokumentations-KI für standardisierte Berichterstellung
 - **Lehrer-Mehrwert**: Eliminierung bürokratischer Dokumentationsarbeit
-
-### Technische Entwickler-Dokumentation
-
-Spezifikationen, Coding Standards und Voraussetzungen für Einsteiger (Menschen und KI): [docs/DEVELOPER_ONBOARDING.md](docs/DEVELOPER_ONBOARDING.md).
