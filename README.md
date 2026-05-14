@@ -14,11 +14,11 @@
 
 ### 🎯 Was ist das Ziel des MVS (Minimal Viable Solution)?
 
-Das **MVS** (Minimal Viable Solution) ist der erste Prototyp, der tei-Entwicklung und fokussiert sich auf eine Software-Plattform für Lehrer und einen persönlichen Schreiblernbegleiter für Kinder. Ziel ist es, Lehrkräften und Schükerschaft gleichsam, Werkzeuge an die die Hand zu geben, die ihnen eine dynamischere, individuellere und kreativere Unterrichtsgestaltung und Lernerfahrung ermöglichen.
+Das **MVS** (Minimal Viable Solution) ist der erste Prototyp der tei-Entwicklung und fokussiert sich auf einen persönlichen Schreiblernbegleiter für Kinder. Ziel ist es, der Schülerschaft Werkzeuge an die Hand zu geben, die ihnen eine dynamischere, individuellere und kreativere Lernerfahrung ermöglichen.
 
 ### 🚀 Produktiver Kern des MVS
 
-**Der produktive Kern des MVS ist eine Kombination aus Soft- und Hardwarelösungen**, genauer gesagt die Kombination eines analog-digital Smartpens, eines transportablen Schreiblernbegleiters und einer Softwareplattform für Lehrer.
+**Der produktive Kern des MVS ist eine Kombination aus Soft- und Hardwarelösungen**, genauer gesagt die Kombination eines analog-digital Smartpens und eines transportablen Schreiblernbegleiters.
 
 ### 🎯 Aktuell verwendete Smartpen-Lösungen
 
@@ -39,7 +39,7 @@ Siehe dazu: tei_flow Prototypenheft
    - Zukünftig: Eigenentwicklung eines optimierten Analog-Digital Stifts (siehe dazu tei_flow - Prototypenheft)
    - Funktion: Erfassung natürlicher Handschrift und Umwandlung in digitale Daten
 
-2. **tei-AI-Begleiter** (AI-Mini-Tablet mit integriertem Computing-System)
+2. **tei_yu** (AI-Mini-Tablet mit integriertem Computing-System)
    - Integrierter Mini-AI-PC mit Bildschirm
    - Persönlicher Computing-Begleiter (siehe dazu tei_yu - Prototypenheft)
    - Touchscreen + hybride Eingabe durch analoge Handschrift
@@ -64,6 +64,17 @@ Siehe dazu: tei_flow Prototypenheft
 ### 🎒 "Der Schulrucksack ohne Rückenschmerzen" - Schüler-Interface (Vision)
 
 **Vision**: Der **tei-AI-Begleiter** fungiert wie ein traditioneller Schulrucksack und kapselt alle Unterrichtsmaterialen. Er ist ein persönlicher Begleiter (vergleichbar mit einem Pokedex, dem Rucksack aus Dora the Explorer oder J.A.R.V.I.S aus Iron Man), den jeder Schüler besitzt und mit sich führt. Es handelt sich um eine standalone Anwendung auf dem persönlichen AI-Mini-PC, die Kinder gerne und freiwillig in ihrer Freizeit nutzen, um zu lernen, sich über die Klassenräume dieser Welt zu vernetzen, sich dabei ganzheitlich-kreativ auszuleben und zu lernen, die Zukunft mitzugestalten.
+
+### 👩‍🏫 Lehrer-Plattform (Vision)
+
+**Ziel**: Eine Software-Plattform für Lehrkräfte, die ihnen eine dynamischere, individuellere und kreativere Unterrichtsgestaltung ermöglicht.
+
+**Geplante Funktionen**:
+
+- Erstellung von Schreiblern- und Rechenlernaufgaben mithilfe generativer KI
+- NCode Modul zum Drucken der Aufgaben auf NCode Papier
+- Automatisierte Auswertung und Berichterstellung auf Basis der empfangenen Schriftdaten
+- Datenempfang von Schüler-Geräten über lokales Netzwerk
 
 ### 👨‍👩‍👧‍👦 Eltern-Interface (Vision)
 
@@ -152,12 +163,3 @@ Siehe dazu: tei_flow Prototypenheft
 ### Technische Entwickler-Dokumentation
 
 Architektur, Spezifikationen, Coding Standards und Code-Review-Checkliste für Einsteiger (Menschen und KI): [docs/DEVELOPER_ONBOARDING.md](docs/DEVELOPER_ONBOARDING.md).
-
-## 📄 Lizenz & Verein
-
-**tei** - Verein für holistische Bildungsinnovation
-
-- **Gemeinnütziger Zweck**: Keine Gewinnabsicht, Fokus auf Bildungsmission
-- **Lizenz**: Proprietär für Vereinszwecke und Bildungsmission
-
-**Philosophie**: Als Verein verfolgen wir keine Gewinnabsicht im klassischen Sinne, sondern die Mission einer globalen, dezentralen und humanistischen Bildungsrevolution, deren Frucht eine freie, widerständige und wahrhaftig produktive, vom erfüllten Individuum ausgehende Menschheit sein wird.
