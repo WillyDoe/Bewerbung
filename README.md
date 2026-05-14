@@ -34,7 +34,7 @@ Siehe dazu: tei_flow Prototypenheft
 
 #### Komponenten des tei Exploring Kits:
 
-1. **tei-flow** (Analog-Digital Stift)
+1. **tei_flow** (Analog-Digital Stift)
    - Aktuell: Neosmartpen-Lösungen (MVS-Phase)
    - Zukünftig: Eigenentwicklung eines optimierten Analog-Digital Stifts (siehe dazu tei_flow - Prototypenheft)
    - Funktion: Erfassung natürlicher Handschrift und Umwandlung in digitale Daten
@@ -72,9 +72,10 @@ Siehe dazu: tei_flow Prototypenheft
 **Geplante Funktionen**:
 
 - Erstellung von Schreiblern- und Rechenlernaufgaben mithilfe generativer KI
-- NCode Modul zum Drucken der Aufgaben auf NCode Papier
+- NCode Modul zum Drucken der Aufgaben auf NCode Papier (bei Verwendung der Neosmartpens)
 - Automatisierte Auswertung und Berichterstellung auf Basis der empfangenen Schriftdaten
 - Datenempfang von Schüler-Geräten über lokales Netzwerk
+- Datengestütze Analyse und Lernstandsentwicklung
 
 ### 👨‍👩‍👧‍👦 Eltern-Interface (Vision)
 
@@ -116,27 +117,6 @@ Siehe dazu: tei_flow Prototypenheft
 - Praxisnahe Projekt- und Aufgabenmodule erstellt durch Unternehmen (z.B. als außerschulische Aktivität oder Seminarkurs), zur Schärfung des lateralen, unternehmerischen Denkens
 - Kooperation mit Klein- und Mittelständischen Unternehmen, zur Talentförderung und Erweiterung des Lehrplanes (z.B. mit lokalem Steuerbüro - Wie mache ich eine Steuerklärung? Oder lokalem Fahrradladen - Wie wechsle ich einen Reifen?)
 
-### 📋 Entwicklungs-Prioritäten
-
-#### Software-Plattform (MVS - Aktuelle Phase)
-
-1. **Entwicklung des tei_penServiceConnectionManager**
-   1.1 1:1 Stiftverbindung (jeder Schüler mit seinem persönlichen AI-Begleiter)
-   1.2 Datenübertragung (Bluetooth → lokale Speicherung)
-   1.3 Datenspeicherung (JSON-Format, UTF-8)
-   1.4 Datenserialisierung (SDK-Stroke → JSON-DTO)
-   1.5 Cloud-Synchronisation (Schul-Cloud für Lerninhalte & Compute) -> API für tei_teacher_core
-
-2. **Entwicklung des tei_teacher_core**
-   2.1 freie Ordnerstruktur definieren
-   2.2 Erstellung von Schreiblern- und Rechenlernaufgaben mithilfe generativer KI
-   2.3 NCode Modul zum Drucken der Aufgaben auf NCode Papier (Verwendung/Einbindung des bestehenden Services von Neo in tei_teacher)
-   2.4 automatisierte Auswertung und Berichterstellung auf Basis der empfangenen Schriftdaten
-
-3. **Entwicklung von luma - tei's individueller AI-Lernbegleiter**
-   3.1 Spezielles Fine-tuned Foundation Sprachmodell
-   3.2 Persönliche KI
-
 ### 🤖 Beispiel für einen KI-Lehrerworkflow (Modell aktuelles Bildungssystem und Neosmartpen)
 
 **KI-gestützte Aufgabenstellung**:
@@ -162,4 +142,4 @@ Siehe dazu: tei_flow Prototypenheft
 
 ### Technische Entwickler-Dokumentation
 
-Architektur, Spezifikationen, Coding Standards und Code-Review-Checkliste für Einsteiger (Menschen und KI): [docs/DEVELOPER_ONBOARDING.md](docs/DEVELOPER_ONBOARDING.md).
+Spezifikationen, Coding Standards und Voraussetzungen für Einsteiger (Menschen und KI): [docs/DEVELOPER_ONBOARDING.md](docs/DEVELOPER_ONBOARDING.md).
