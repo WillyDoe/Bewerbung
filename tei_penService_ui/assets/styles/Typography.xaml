@@ -1,0 +1,123 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- ============================================ -->
+    <!-- Font Families -->
+    <!-- ============================================ -->
+    <!-- Primär: Modern und freundlich (Segoe UI ist modern und gut lesbar) -->
+    <FontFamily x:Key="PrimaryFontFamily">Segoe UI, Segoe UI Variable Display, -apple-system, BlinkMacSystemFont, Roboto, sans-serif</FontFamily>
+    
+    <!-- Sekundär: Für Headlines (etwas verspielter) -->
+    <FontFamily x:Key="DisplayFontFamily">Segoe UI, Segoe UI Variable Display, Arial, sans-serif</FontFamily>
+    
+    <!-- Monospace: Für technische Daten (MAC-Adressen, Ports, etc.) -->
+    <FontFamily x:Key="MonospaceFontFamily">Consolas, Courier New, monospace</FontFamily>
+
+    <!-- ============================================ -->
+    <!-- Font Sizes (größer und freundlicher) -->
+    <!-- ============================================ -->
+    <sys:Double x:Key="FontSizeXL">24</sys:Double>   <!-- Hauptüberschriften -->
+    <sys:Double x:Key="FontSizeL">18</sys:Double>    <!-- Unterüberschriften -->
+    <sys:Double x:Key="FontSizeM">15</sys:Double>    <!-- Standard Text (größer als üblich für Lesbarkeit) -->
+    <sys:Double x:Key="FontSizeS">13</sys:Double>    <!-- Sekundärer Text -->
+    <sys:Double x:Key="FontSizeXS">11</sys:Double>   <!-- Labels, Hints -->
+
+    <!-- ============================================ -->
+    <!-- Font Weights (dynamisch und verspielt) -->
+    <!-- ============================================ -->
+    <FontWeight x:Key="FontWeightNormal">Normal</FontWeight>
+    <FontWeight x:Key="FontWeightMedium">Medium</FontWeight>
+    <FontWeight x:Key="FontWeightSemiBold">SemiBold</FontWeight>
+    <FontWeight x:Key="FontWeightBold">Bold</FontWeight>
+
+    <!-- ============================================ -->
+    <!-- Line Heights (luftig für moderne Optik) -->
+    <!-- ============================================ -->
+    <sys:Double x:Key="LineHeightTight">1.2</sys:Double>   <!-- Headlines -->
+    <sys:Double x:Key="LineHeightNormal">1.5</sys:Double>  <!-- Standard Text -->
+
+    <!-- ============================================ -->
+    <!-- Typography-Styles (vorkonfigurierte Kombinationen) -->
+    <!-- ============================================ -->
+    
+    <!-- Hauptüberschrift -->
+    <Style x:Key="TypographyHeading1" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource DisplayFontFamily}"/>
+        <Setter Property="FontSize" Value="{StaticResource FontSizeXL}"/>
+        <Setter Property="FontWeight" Value="{StaticResource FontWeightBold}"/>
+        <Setter Property="LineHeight" Value="{StaticResource LineHeightTight}"/>
+    </Style>
+
+    <!-- Unterüberschrift -->
+    <Style x:Key="TypographyHeading2" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource PrimaryFontFamily}"/>
+        <Setter Property="FontSize" Value="{StaticResource FontSizeL}"/>
+        <Setter Property="FontWeight" Value="{StaticResource FontWeightSemiBold}"/>
+        <Setter Property="LineHeight" Value="{StaticResource LineHeightNormal}"/>
+    </Style>
+
+    <!-- Standard Text (Body) -->
+    <Style x:Key="TypographyBody" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource PrimaryFontFamily}"/>
+        <Setter Property="FontSize" Value="{StaticResource FontSizeM}"/>
+        <Setter Property="FontWeight" Value="{StaticResource FontWeightNormal}"/>
+        <Setter Property="LineHeight" Value="{StaticResource LineHeightNormal}"/>
+    </Style>
+
+    <!-- Sekundärer Text -->
+    <Style x:Key="TypographySecondary" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource PrimaryFontFamily}"/>
+        <Setter Property="FontSize" Value="{StaticResource FontSizeS}"/>
+        <Setter Property="FontWeight" Value="{StaticResource FontWeightNormal}"/>
+        <Setter Property="LineHeight" Value="{StaticResource LineHeightNormal}"/>
+    </Style>
+
+    <!-- Labels / Kleine Texte -->
+    <Style x:Key="TypographyLabel" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource PrimaryFontFamily}"/>
+        <Setter Property="FontSize" Value="{StaticResource FontSizeXS}"/>
+        <Setter Property="FontWeight" Value="{StaticResource FontWeightMedium}"/>
+        <Setter Property="LineHeight" Value="{StaticResource LineHeightNormal}"/>
+    </Style>
+
+    <!-- Monospace für technische Daten -->
+    <Style x:Key="TypographyMonospace" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource MonospaceFontFamily}"/>
+        <Setter Property="FontSize" Value="{StaticResource FontSizeS}"/>
+        <Setter Property="FontWeight" Value="{StaticResource FontWeightNormal}"/>
+    </Style>
+
+    <!-- Button Text (kräftig und präsent) -->
+    <Style x:Key="TypographyButton" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource PrimaryFontFamily}"/>
+        <Setter Property="FontSize" Value="{StaticResource FontSizeM}"/>
+        <Setter Property="FontWeight" Value="{StaticResource FontWeightSemiBold}"/>
+    </Style>
+
+    <!-- Status Text (für Verbindungsstatus) -->
+    <Style x:Key="TypographyStatus" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource PrimaryFontFamily}"/>
+        <Setter Property="FontSize" Value="{StaticResource FontSizeS}"/>
+        <Setter Property="FontWeight" Value="{StaticResource FontWeightMedium}"/>
+        <!-- TextTransform und LetterSpacing werden in WPF nicht direkt unterstützt -->
+        <!-- Für Uppercase: Text im Code-Behind oder Converter verwenden -->
+    </Style>
+
+    <!-- Settings: Hauptüberschrift (z. B. Account, tei-Pen) -->
+    <Style x:Key="SettingsMainHeadingStyle" TargetType="TextBlock" BasedOn="{StaticResource TypographyHeading2}">
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+        <Setter Property="Margin" Value="0,0,0,20"/>
+    </Style>
+
+    <!-- Settings: Unterüberschrift (z. B. Passwort ändern, Stift-Passwort) -->
+    <Style x:Key="SettingsSubHeadingStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource PrimaryFontFamily}"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontWeight" Value="{StaticResource FontWeightSemiBold}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+        <Setter Property="Margin" Value="0,8,0,12"/>
+    </Style>
+
+</ResourceDictionary>
+

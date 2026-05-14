@@ -1,0 +1,291 @@
+<UserControl x:Class="tei_penService_ui.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:tei_penService_ui.Controls"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="800"
+             Background="Transparent">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!-- Schließen-Button oben rechts: zurück zum Arbeitsbereich -->
+        <Button x:Name="CloseButton"
+                Grid.Row="0"
+                Style="{StaticResource CloseButtonStyle}"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Margin="0,8,12,0"
+                ToolTip="Zurück zum Arbeitsbereich"
+                Click="CloseButton_Click">
+            <TextBlock Text="×"
+                       FontSize="16"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
+        </Button>
+
+        <!-- Hauptbereich: ein-/ausfahrbares Menü links + Inhaltsbereich rechts -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Linkes Menü (ein-/ausfahrbar) -->
+            <Border x:Name="SettingsMenuPanel"
+                    Grid.Column="0"
+                    Width="220"
+                    BorderThickness="0,0,1,0">
+                <Grid Background="Transparent">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <!-- Toggle: Menü ein-/ausklappen (Hamburger-Icon) -->
+                    <Button x:Name="MenuExpandCollapseButton"
+                            Grid.Row="0"
+                            Width="40"
+                            Height="40"
+                            Margin="0,0,0,0"
+                            Padding="0"
+                            HorizontalAlignment="Left"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            ToolTip="Menü ein- oder ausklappen"
+                            Click="MenuExpandCollapseButton_Click">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/> 
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                        <Viewbox Width="24" Height="24" Stretch="Uniform">
+                            <Path Data="M 4,6 L 20,6 M 4,12 L 20,12 M 4,18 L 20,18"
+                                  Stroke="{DynamicResource TextBrush}"
+                                  StrokeThickness="2"
+                                  StrokeStartLineCap="Round"
+                                  StrokeEndLineCap="Round"/>
+                        </Viewbox>
+                    </Button>
+                    <!-- Menüpunkte (sichtbar wenn Menü ausgeklappt) -->
+                    <StackPanel x:Name="MenuItemsPanel"
+                                Grid.Row="1"
+                                Margin="0,0,0,0"
+                                Visibility="Visible">
+                        <ListBox x:Name="SettingsMenuListBox"
+                                 Background="Transparent"
+                                 BorderThickness="0"
+                                 Padding="0"
+                                 SelectionChanged="SettingsMenuListBox_SelectionChanged">
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Padding" Value="12,10"/>
+                                    <Setter Property="Margin" Value="0,2"/>
+                                    <Setter Property="Cursor" Value="Hand"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource SettingsMenuItemTextBrush}"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListBoxItem">
+                                                <Border x:Name="ItemBorder"
+                                                        Background="{TemplateBinding Background}"
+                                                        CornerRadius="6"
+                                                        Padding="{TemplateBinding Padding}">
+                                                    <ContentPresenter/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsSelected" Value="True">
+                                                        <Setter TargetName="ItemBorder" Property="Background" Value="{DynamicResource SettingsMenuItemSelectedBrush}"/>
+                                                        <Setter Property="Foreground" Value="{DynamicResource SettingsMenuItemSelectedTextBrush}"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="ItemBorder" Property="Background" Value="{DynamicResource SettingsMenuItemHoverBrush}"/>
+                                                        <Setter TargetName="ItemBorder" Property="Opacity" Value="1"/>
+                                                        <Setter Property="Foreground" Value="{DynamicResource WeißBrush}"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            <ListBoxItem x:Name="MenuItemAccount" Content="Account"/>
+                            <ListBoxItem x:Name="MenuItemTeiPen" Content="tei-Pen"/>
+                        </ListBox>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Inhaltsbereich (Account oder tei-Pen) -->
+            <ScrollViewer Grid.Column="1"
+                          Margin="24,16,24,24"
+                          x:Name="ContentScrollViewer"
+                          VerticalScrollBarVisibility="Hidden"
+                          HorizontalScrollBarVisibility="Disabled">
+                <StackPanel>
+                    <!-- Bereich: Account -->
+                        <StackPanel x:Name="AccountContentPanel"
+                                    Visibility="Visible">
+                            <TextBlock Style="{StaticResource SettingsMainHeadingStyle}" Text="Account"/>
+                            <!-- E-Mail (ohne SubHeading) -->
+                            <controls:SettingsBlockContainer x:Name="EmailBlockContainer"
+                                                             InputSpacing="8"
+                                                             InputToButtonMargin="8"
+                                                             BottomMargin="20">
+                                <controls:SettingsBlockContainer.Inputs>
+                                    <controls:FormularTextInputControl Label="E-Mail-Adresse"/>
+                                </controls:SettingsBlockContainer.Inputs>
+                                <controls:SettingsBlockContainer.Buttons>
+                                    <Button Style="{StaticResource SettingsButtonStyle}"
+                                            Content="Speichern"
+                                            Click="SaveEmailButton_Click"
+                                            HorizontalAlignment="Left"
+                                            MinHeight="32"/>
+                                </controls:SettingsBlockContainer.Buttons>
+                            </controls:SettingsBlockContainer>
+                            <!-- Nutzername (ohne SubHeading) -->
+                            <controls:SettingsBlockContainer x:Name="DisplayNameBlockContainer"
+                                                             InputSpacing="8"
+                                                             InputToButtonMargin="8"
+                                                             BottomMargin="20">
+                                <controls:SettingsBlockContainer.Inputs>
+                                    <controls:FormularTextInputControl Label="Nutzername (Anzeigename)"/>
+                                </controls:SettingsBlockContainer.Inputs>
+                                <controls:SettingsBlockContainer.Buttons>
+                                    <Button Style="{StaticResource SettingsButtonStyle}"
+                                            Content="Speichern"
+                                            Click="SaveAppDisplayNameButton_Click"
+                                            HorizontalAlignment="Left"
+                                            MinHeight="32"/>
+                                </controls:SettingsBlockContainer.Buttons>
+                            </controls:SettingsBlockContainer>
+                            <!-- Passwort (mit SubHeading) -->
+                            <controls:SettingsBlockContainer x:Name="PasswordBlockContainer"
+                                                             SubHeadingToInputMargin="12"
+                                                             InputSpacing="8"
+                                                             InputToButtonMargin="8"
+                                                             BottomMargin="16">
+                                <controls:SettingsBlockContainer.SubHeading>
+                                    <TextBlock Style="{StaticResource SettingsSubHeadingStyle}" Text="Passwort ändern (Anwendung)"/>
+                                </controls:SettingsBlockContainer.SubHeading>
+                                <controls:SettingsBlockContainer.Inputs>
+                                    <controls:FormularPasswordInputControl Label="Aktuelles Passwort"/>
+                                    <controls:FormularPasswordInputControl Label="Neues Passwort"/>
+                                    <controls:FormularPasswordInputControl Label="Neues Passwort wiederholen"/>
+                                </controls:SettingsBlockContainer.Inputs>
+                                <controls:SettingsBlockContainer.Buttons>
+                                    <Button Style="{StaticResource SettingsButtonStyle}"
+                                            Content="Speichern"
+                                            Click="SaveAppPasswordButton_Click"
+                                            HorizontalAlignment="Left"
+                                            MinHeight="32"/>
+                                </controls:SettingsBlockContainer.Buttons>
+                            </controls:SettingsBlockContainer>
+                        </StackPanel>
+
+                    <!-- Bereich: tei-Pen -->
+                    <StackPanel x:Name="TeiPenContentPanel"
+                                Visibility="Collapsed">
+                        <TextBlock Style="{StaticResource SettingsMainHeadingStyle}" Text="tei-Pen"/>
+                        <!-- Stiftname: ComboBox (Label im Code um Modell ergänzt) + Anzeigename, dann Button unten -->
+                        <controls:SettingsBlockContainer x:Name="PenNameBlockContainer"
+                                                         InputSpacing="8"
+                                                         InputToButtonMargin="8"
+                                                         BottomMargin="20">
+                            <controls:SettingsBlockContainer.Inputs>
+                                <controls:SettingsComboBoxControl Label="Stift"
+                                                                  DisplayMemberPath="DisplayLabel"
+                                                                  SelectionChanged="PenListComboBox_SelectionChanged"/>
+                                <controls:FormularTextInputControl Label="Anzeigename"/>
+                            </controls:SettingsBlockContainer.Inputs>
+                            <controls:SettingsBlockContainer.Buttons>
+                                <Button Style="{StaticResource SettingsButtonStyle}"
+                                        Content="Speichern"
+                                        Click="SavePenNameButton_Click"
+                                        HorizontalAlignment="Left"
+                                        MinHeight="32"
+                                        IsEnabled="False"/>
+                            </controls:SettingsBlockContainer.Buttons>
+                        </controls:SettingsBlockContainer>
+                        <!-- Stiftpasswort -->
+                        <controls:SettingsBlockContainer x:Name="PenPasswordBlockContainer"
+                                                         SubHeadingToInputMargin="12"
+                                                         InputSpacing="8"
+                                                         InputToButtonMargin="8"
+                                                         BottomMargin="16">
+                            <controls:SettingsBlockContainer.SubHeading>
+                                <TextBlock Style="{StaticResource SettingsSubHeadingStyle}" Text="Stift-Passwort"/>
+                            </controls:SettingsBlockContainer.SubHeading>
+                            <controls:SettingsBlockContainer.Inputs>
+                                <controls:SettingsComboBoxControl Label="Stift"
+                                                                  DisplayMemberPath="DisplayLabel"
+                                                                  SelectionChanged="PenPasswordPenComboBox_SelectionChanged"/>
+                                <controls:FormularPasswordInputControl Label="Aktuelles Passwort (Stift, für Gerät)"/>
+                                <controls:FormularPasswordInputControl Label="Neues Passwort"/>
+                                <controls:FormularPasswordInputControl Label="Wiederholung"/>
+                            </controls:SettingsBlockContainer.Inputs>
+                            <controls:SettingsBlockContainer.Buttons>
+                                <Button Style="{StaticResource SettingsButtonStyle}"
+                                        Content="Speichern"
+                                        Click="SavePenPasswordButton_Click"
+                                        HorizontalAlignment="Left"
+                                        MinHeight="32"
+                                        IsEnabled="False"/>
+                            </controls:SettingsBlockContainer.Buttons>
+                        </controls:SettingsBlockContainer>
+                        <!-- Stift mit Account verbinden -->
+                        <controls:SettingsBlockContainer x:Name="LinkPenBlockContainer"
+                                                         SubHeadingToInputMargin="12"
+                                                         InputSpacing="8"
+                                                         InputToButtonMargin="8"
+                                                         ButtonOrientation="Horizontal"
+                                                         ButtonSpacing="8"
+                                                         BottomMargin="16">
+                            <controls:SettingsBlockContainer.SubHeading>
+                                <TextBlock Style="{StaticResource SettingsSubHeadingStyle}" Text="Stift mit Account verknüpfen"/>
+                            </controls:SettingsBlockContainer.SubHeading>
+                            <controls:SettingsBlockContainer.Inputs>
+                                <TextBlock Text="Kein Stift verknüpft."
+                                           FontSize="12"
+                                           Foreground="{DynamicResource TextSecondaryBrush}"
+                                           Margin="0,0,0,0"
+                                           TextWrapping="Wrap"/>
+                                <controls:SettingsComboBoxControl Label="Stift"
+                                                                  DisplayMemberPath="DisplayLabel"
+                                                                  SelectionChanged="LinkPenComboBox_SelectionChanged"/>
+                            </controls:SettingsBlockContainer.Inputs>
+                            <controls:SettingsBlockContainer.Buttons>
+                                <Button Style="{StaticResource SettingsButtonStyle}"
+                                        Content="Stift verknüpfen"
+                                        HorizontalAlignment="Left"
+                                        MinHeight="32"
+                                        IsEnabled="False"
+                                        Click="LinkPenButton_Click"/>
+                                <Button Style="{StaticResource SettingsButtonStyle}"
+                                        Content="Verknüpfung aufheben"
+                                        HorizontalAlignment="Left"
+                                        MinHeight="32"
+                                        IsEnabled="False"
+                                        Click="UnlinkPenButton_Click"/>
+                            </controls:SettingsBlockContainer.Buttons>
+                        </controls:SettingsBlockContainer>
+                    </StackPanel>
+                    <!-- Status (für beide Bereiche) -->
+                    <TextBlock x:Name="StatusTextBlock"
+                               FontSize="12"
+                               Foreground="{DynamicResource TextSecondaryBrush}"
+                               Margin="0,8,0,0"
+                               TextWrapping="Wrap"
+                               Visibility="Collapsed"/>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</UserControl>

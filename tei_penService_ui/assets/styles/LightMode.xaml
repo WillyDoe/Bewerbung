@@ -1,0 +1,36 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Einsatzgebiet-Zuordnung: Brush-Keys mit Light-Farben aus Colors.xaml -->
+    <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource Weiß}"/>
+    <SolidColorBrush x:Key="TextBrush" Color="{StaticResource Schwarz}"/>
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="{StaticResource Mittelgrau}"/>
+    <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource GrauHell}"/>
+    <SolidColorBrush x:Key="TitleBarBrush" Color="{StaticResource TeiBluePastelSanft}"/>
+    <SolidColorBrush x:Key="TitleBarHoverBrush" Color="{StaticResource TeiBluePastel}"/>
+    <SolidColorBrush x:Key="StatusInactiveBrush" Color="{StaticResource GrauInaktiv}"/>
+    <SolidColorBrush x:Key="StatusErrorBrush" Color="{StaticResource RotPastell}"/>
+    <SolidColorBrush x:Key="BorderBlueAccentBrush" Color="{StaticResource GrauHell}"/>
+
+    <!-- Settings Menu Item -->
+    <SolidColorBrush x:Key="SettingsMenuItemTextBrush" Color="{StaticResource Schwarz}"/>
+    <SolidColorBrush x:Key="SettingsMenuItemSelectedBrush" Color="{StaticResource TeiCyan}"/>
+    <SolidColorBrush x:Key="SettingsMenuItemHoverBrush" Color="{StaticResource TeiCyanPastel}"/>
+    <SolidColorBrush x:Key="SettingsMenuItemSelectedTextBrush" Color="{StaticResource Weiß}"/>
+
+    <!-- ScrollBar -->
+    <SolidColorBrush x:Key="ScrollBarThumbBrush" Color="{StaticResource TeiCyan}"/>
+
+    <!-- Settings ComboBox -->
+    <SolidColorBrush x:Key="SettingsComboBoxBorderBrush" Color="{StaticResource TeiCyanPastel}"/>
+    <SolidColorBrush x:Key="SettingsComboBoxBackgroundBrush" Color="{StaticResource TeiCyanPastelSanft}"/>
+    <SolidColorBrush x:Key="SettingsComboBoxArrowIconBrush" Color="{StaticResource TeiCyan}"/>
+
+    <!-- Settings Text Input / Password Input Focused Brush-->
+    <SolidColorBrush x:Key="SettingsControlFocusedBorderBrush" Color="{StaticResource TeiCyanPastel}"/>
+    <SolidColorBrush x:Key="SettingsControlFocusedLabelBrush" Color="{StaticResource TeiCyanPastel}"/>
+
+    <!-- Login / Registrieren Text Input / Password Input Focused Brush-->
+    <SolidColorBrush x:Key="LoginControlFocusedBorderBrush" Color="{StaticResource TeiBlue}"/>
+    <SolidColorBrush x:Key="LoginControlFocusedLabelBrush" Color="{StaticResource TeiBlue}"/>
+</ResourceDictionary>

@@ -1,0 +1,24 @@
+<UserControl x:Class="tei_penService_ui.Controls.SettingsComboBoxControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="60" d:DesignWidth="300">
+    <StackPanel>
+        <TextBlock Text="{Binding Label, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                   x:Name="LabelInnerComboBox"
+                   FontSize="12"
+                   Foreground="{DynamicResource TextSecondaryBrush}"
+                   Margin="0,0,0,4"/>
+
+            <ComboBox x:Name="InnerComboBox"
+                Style="{StaticResource SettingsComboBoxStyle}"
+                      DropDownOpened="InnerComboBox_DropDownOpened"
+                      DropDownClosed="InnerComboBox_DropDownClosed"
+                      ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                      SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}"
+                      DisplayMemberPath="{Binding DisplayMemberPath, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                    />
+    </StackPanel>
+</UserControl>

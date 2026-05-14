@@ -1,0 +1,16 @@
+<UserControl x:Class="tei_penService_ui.Controls.SettingsBlockContainer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="200" d:DesignWidth="400">
+    <StackPanel x:Name="RootPanel">
+        <!-- Optionales SubHeading: Content und Margin/Visibility werden im Code gesetzt -->
+        <ContentPresenter x:Name="SubHeadingPresenter"/>
+        <!-- Input-Elemente: werden im Code-Behind eingefügt -->
+        <StackPanel x:Name="InputsPanel"/>
+        <!-- Buttons: Orientation und Kinder werden im Code-Behind gesetzt -->
+        <StackPanel x:Name="ButtonsPanel"/>
+    </StackPanel>
+</UserControl>

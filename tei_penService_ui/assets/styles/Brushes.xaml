@@ -1,0 +1,35 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Colors.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- Basis-Brushes (themenunabhängig) -->
+    <SolidColorBrush x:Key="WeißBrush" Color="{StaticResource Weiß}"/>
+    <SolidColorBrush x:Key="SchwarzBrush" Color="{StaticResource Schwarz}"/>
+    <SolidColorBrush x:Key="MittelgrauBrush" Color="{StaticResource Mittelgrau}"/>
+    <SolidColorBrush x:Key="HellgrauBrush" Color="{StaticResource Hellgrau}"/>
+
+    <!-- Logo-Farben Brushes (pastellig) für Akzente -->
+    <SolidColorBrush x:Key="TeiBluePastelBrush" Color="{StaticResource TeiBluePastel}"/>
+    <SolidColorBrush x:Key="TeiYellowPastelBrush" Color="{StaticResource TeiYellowPastel}"/>
+    <SolidColorBrush x:Key="TeiGreenPastelBrush" Color="{StaticResource TeiGreenPastel}"/>
+    <SolidColorBrush x:Key="TeiCyanPastelBrush" Color="{StaticResource TeiCyanPastel}"/>
+
+    <!-- Logo-Farben Brushes (pastellig-sanft) für sanfte Akzente -->
+    <SolidColorBrush x:Key="TeiBluePastelSanftBrush" Color="{StaticResource TeiBluePastelSanft}"/>
+    <SolidColorBrush x:Key="TeiYellowPastelSanftBrush" Color="{StaticResource TeiYellowPastelSanft}"/>
+    <SolidColorBrush x:Key="TeiGreenPastelSanftBrush" Color="{StaticResource TeiGreenPastelSanft}"/>
+    <SolidColorBrush x:Key="TeiCyanPastelSanftBrush" Color="{StaticResource TeiCyanPastelSanft}"/>
+
+    <!-- Logo-Farben Brushes (original) für Buttons und Akzente -->
+    <SolidColorBrush x:Key="TeiBlueBrush" Color="{StaticResource TeiBlue}"/>
+    <SolidColorBrush x:Key="TeiYellowBrush" Color="{StaticResource TeiYellow}"/>
+    <SolidColorBrush x:Key="TeiGreenBrush" Color="{StaticResource TeiGreen}"/>
+    <SolidColorBrush x:Key="TeiCyanBrush" Color="{StaticResource TeiCyan}"/>
+
+    <!-- Backpapier-Brush -->
+    <SolidColorBrush x:Key="BackpapierBrush" Color="{StaticResource Beige}"/>
+
+</ResourceDictionary>

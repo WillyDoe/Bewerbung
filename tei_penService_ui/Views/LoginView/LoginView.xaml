@@ -1,0 +1,144 @@
+<UserControl x:Class="tei_penService_ui.Views.LoginView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="clr-namespace:tei_penService_ui.Controls"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="800"
+             Background="Transparent">
+    <Grid>
+        <Border HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="{DynamicResource BackgroundBrush}"
+                CornerRadius="14"
+                Padding="32,40"
+                MinWidth="360"
+                MaxWidth="400">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="20" Opacity="0.15" Color="Black" ShadowDepth="4" Direction="270"/>
+            </Border.Effect>
+            <Grid>
+                <StackPanel>
+                <!-- Logo -->
+                <Image Source="/tei_penService_ui;component/Assets/Images/ico/tei_logo_96.ico"
+                       Width="64"
+                       Height="64"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,24"/>
+
+                <!-- Tab-Umschaltung: Anmelden | Registrieren -->
+                <Grid Margin="0,0,0,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <ToggleButton x:Name="TabLogin"
+                                 Grid.Column="0"
+                                 Content="Anmelden"
+                                 IsChecked="True"
+                                 Click="TabLogin_Click"
+                                 Style="{StaticResource LoginTabToggleStyle}"/>
+                    <ToggleButton x:Name="TabRegister"
+                                 Grid.Column="1"
+                                 Content="Registrieren"
+                                 IsChecked="False"
+                                 Click="TabRegister_Click"
+                                 Style="{StaticResource LoginTabToggleStyle}"/>
+                </Grid>
+
+                <!-- Anmelden-Formular -->
+                <StackPanel x:Name="LoginPanel" Visibility="Visible">
+                    <controls:FormularTextInputControl x:Name="LoginEmailInput"
+                                                      FocusedBorderBrush="{DynamicResource LoginControlFocusedBorderBrush}"
+                                                      FocusedLabelBrush="{DynamicResource LoginControlFocusedLabelBrush}"
+                                                      Label="E-Mail oder Anmeldename"
+                                                      Margin="0,0,0,16"/>
+                    <controls:FormularPasswordInputControl x:Name="LoginPasswordInput"
+                                                           FocusedBorderBrush="{DynamicResource LoginControlFocusedBorderBrush}"
+                                                           FocusedLabelBrush="{DynamicResource LoginControlFocusedLabelBrush}"
+                                                           Label="Passwort"
+                                                           Margin="0,0,0,16"/>
+                    <TextBlock x:Name="LoginError"
+                               Text=""
+                               Foreground="{StaticResource StatusErrorBrush}"
+                               FontSize="12"
+                               TextWrapping="Wrap"
+                               Visibility="Collapsed"
+                               Margin="0,0,0,16"/>
+                    <Button x:Name="LoginButton"
+                            Content="Anmelden"
+                            Style="{StaticResource PrimaryButtonCyanStyle}"
+                            HorizontalAlignment="Stretch"
+                            Padding="16,12"
+                            FontSize="14"
+                            IsDefault="True"
+                            Click="LoginButton_Click"/>
+                </StackPanel>
+
+                <!-- Registrieren-Formular -->
+                <StackPanel x:Name="RegisterPanel" Visibility="Collapsed">
+                    <controls:FormularTextInputControl x:Name="RegisterDisplayNameInput"
+                                                       FocusedBorderBrush="{DynamicResource LoginControlFocusedBorderBrush}"
+                                                       FocusedLabelBrush="{DynamicResource LoginControlFocusedLabelBrush}"
+                                                       Label="Anzeigename"
+                                                       Margin="0,0,0,16"/>
+                    <controls:FormularTextInputControl x:Name="RegisterEmailInput"
+                                                      FocusedBorderBrush="{DynamicResource LoginControlFocusedBorderBrush}"
+                                                      FocusedLabelBrush="{DynamicResource LoginControlFocusedLabelBrush}"
+                                                      Label="E-Mail"
+                                                      Margin="0,0,0,16"/>
+                    <controls:FormularPasswordInputControl x:Name="RegisterPasswordInput"
+                                                          FocusedBorderBrush="{DynamicResource LoginControlFocusedBorderBrush}"
+                                                          FocusedLabelBrush="{DynamicResource LoginControlFocusedLabelBrush}"
+                                                          Label="Passwort"
+                                                          Margin="0,0,0,16"/>
+                    <TextBlock x:Name="RegisterError"
+                               Text=""
+                               Foreground="{StaticResource StatusErrorBrush}"
+                               FontSize="12"
+                               TextWrapping="Wrap"
+                               Visibility="Collapsed"
+                               Margin="0,0,0,16"/>
+                    <Button x:Name="RegisterButton"
+                            Content="Registrieren"
+                            Style="{StaticResource PrimaryButtonCyanStyle}"
+                            HorizontalAlignment="Stretch"
+                            Padding="16,12"
+                            FontSize="14"
+                            IsDefault="False"
+                            Click="RegisterButton_Click"/>
+                </StackPanel>
+            </StackPanel>
+                <Button x:Name="CloseButton"
+                        Style="{StaticResource CloseButtonStyle}"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Margin="0,-8,-8,0"
+                        Width="28"
+                        Height="28"
+                        ToolTip="Schließen"
+                        Click="CloseButton_Click">
+                    <TextBlock Text="×"
+                               FontSize="18"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Button}}" Value="True">
+                                        <Setter Property="Foreground" Value="{DynamicResource TeiCyanBrush}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                        <TextBlock.RenderTransform>
+                            <TranslateTransform Y="-1"/>
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
+                </Button>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

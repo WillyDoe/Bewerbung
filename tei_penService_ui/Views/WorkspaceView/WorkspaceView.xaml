@@ -1,0 +1,1338 @@
+<UserControl x:Class="tei_penService_ui.Views.WorkspaceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:models="clr-namespace:tei_penService_ui.Models"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="800"
+             Background="Transparent"
+             Loaded="WorkspaceView_Loaded"
+             SizeChanged="WorkspaceView_SizeChanged"
+             Unloaded="WorkspaceView_Unloaded">
+  <Grid>
+      <Grid.Resources>
+          <Style x:Key="WorkspaceTabListBoxItemStyle" TargetType="ListBoxItem">
+              <Setter Property="Padding" Value="8,4"/>
+              <Setter Property="Margin" Value="0,0,4,0"/>
+              <Style.Triggers>
+                  <Trigger Property="IsSelected" Value="True">
+                      <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"/>
+                  </Trigger>
+              </Style.Triggers>
+          </Style>
+      </Grid.Resources>
+       <Grid Margin="4">
+           <Grid.RowDefinitions>
+               <RowDefinition Height="Auto"/>
+               <RowDefinition Height="*"/>
+           </Grid.RowDefinitions>
+
+          <Border Grid.Row="0"
+                  BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"
+                  BorderThickness="0,0,0,1"
+                  Padding="0,0,0,4"
+                  Margin="0,0,0,4">
+              <DockPanel LastChildFill="True">
+                  <ListBox x:Name="MainViewTabListBox"
+                           DockPanel.Dock="Left"
+                           SelectionChanged="MainViewTabListBox_OnSelectionChanged"
+                           PreviewMouseLeftButtonDown="MainViewTabListBox_OnPreviewMouseLeftButtonDown"
+                           PreviewMouseMove="MainViewTabListBox_OnPreviewMouseMove"
+                           DragOver="MainViewTabListBox_OnDragOver"
+                           Drop="MainViewTabListBox_OnDrop"
+                           AllowDrop="True"
+                           Background="Transparent"
+                           BorderThickness="0">
+                      <ListBox.ItemsPanel>
+                          <ItemsPanelTemplate>
+                              <StackPanel Orientation="Horizontal"/>
+                          </ItemsPanelTemplate>
+                      </ListBox.ItemsPanel>
+                      <ListBox.ItemContainerStyle>
+                          <StaticResource ResourceKey="WorkspaceTabListBoxItemStyle"/>
+                      </ListBox.ItemContainerStyle>
+                      <ListBox.ItemTemplate>
+                          <DataTemplate>
+                              <StackPanel Orientation="Horizontal">
+                                  <TextBlock Text="{Binding Title}" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                                  <Button Content="×"
+                                          Width="22"
+                                          Height="22"
+                                          Padding="0"
+                                          VerticalAlignment="Center"
+                                          Click="CloseMainViewTabButton_Click"
+                                          Tag="{Binding}"
+                                          ToolTip="Tab schließen"
+                                          Background="Transparent"
+                                          BorderBrush="Transparent"
+                                          BorderThickness="0"
+                                          FocusVisualStyle="{x:Null}">
+                                      <Button.Template>
+                                          <ControlTemplate TargetType="Button">
+                                              <ContentPresenter HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center"/>
+                                          </ControlTemplate>
+                                      </Button.Template>
+                                      <Button.Style>
+                                          <Style TargetType="Button">
+                                              <Setter Property="Visibility" Value="Collapsed"/>
+                                              <Style.Triggers>
+                                                  <DataTrigger Binding="{Binding CanClose}" Value="True">
+                                                      <Setter Property="Visibility" Value="Visible"/>
+                                                  </DataTrigger>
+                                              </Style.Triggers>
+                                          </Style>
+                                      </Button.Style>
+                                  </Button>
+                              </StackPanel>
+                          </DataTemplate>
+                      </ListBox.ItemTemplate>
+                  </ListBox>
+
+                  <ListBox x:Name="TabListBox"
+                           SelectionChanged="TabListBox_OnSelectionChanged"
+                           PreviewMouseLeftButtonDown="TabListBox_OnPreviewMouseLeftButtonDown"
+                           PreviewMouseMove="TabListBox_OnPreviewMouseMove"
+                           DragOver="TabListBox_OnDragOver"
+                           Drop="TabListBox_OnDrop"
+                           AllowDrop="True"
+                           Background="Transparent"
+                           BorderThickness="0">
+                      <ListBox.ItemsPanel>
+                          <ItemsPanelTemplate>
+                              <StackPanel Orientation="Horizontal"/>
+                          </ItemsPanelTemplate>
+                      </ListBox.ItemsPanel>
+                      <ListBox.ItemContainerStyle>
+                          <StaticResource ResourceKey="WorkspaceTabListBoxItemStyle"/>
+                      </ListBox.ItemContainerStyle>
+                      <ListBox.ItemTemplate>
+                          <DataTemplate DataType="{x:Type models:WorkspaceDocumentTabState}">
+                              <StackPanel Orientation="Horizontal">
+                                  <TextBlock Text="{Binding Title}" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                                  <Button Content="×"
+                                          Width="22"
+                                          Height="22"
+                                          Padding="0"
+                                          VerticalAlignment="Center"
+                                          Click="CloseTabButton_Click"
+                                          Tag="{Binding}"
+                                          ToolTip="Tab schließen"
+                                          Background="Transparent"
+                                          BorderBrush="Transparent"
+                                          BorderThickness="0"
+                                          FocusVisualStyle="{x:Null}">
+                                      <Button.Template>
+                                          <ControlTemplate TargetType="Button">
+                                              <ContentPresenter HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center"/>
+                                          </ControlTemplate>
+                                      </Button.Template>
+                                  </Button>
+                              </StackPanel>
+                          </DataTemplate>
+                      </ListBox.ItemTemplate>
+                  </ListBox>
+              </DockPanel>
+          </Border>
+
+           <DockPanel x:Name="BasisHost" Grid.Row="1">
+               <Canvas x:Name="DesktopCanvas"
+                       MinHeight="320"
+                       Background="Transparent"
+                       MouseMove="DesktopCanvas_MouseMove"
+                       MouseLeftButtonUp="DesktopCanvas_MouseLeftButtonUp"
+                       MouseLeftButtonDown="DesktopCanvas_MouseLeftButtonDown"/>
+           </DockPanel>
+
+          <Grid x:Name="EditorChrome" Grid.Row="1" Visibility="Collapsed">
+               <ScrollViewer x:Name="WorkspaceScroll"
+                             HorizontalScrollBarVisibility="Disabled"
+                             VerticalScrollBarVisibility="Disabled"
+                             Background="Transparent">
+                   <Border x:Name="WorkspaceA5PageHost"
+                           Background="Transparent"
+                           HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch">
+                       <Viewbox x:Name="WorkspaceA5Viewbox"
+                                Stretch="Fill"
+                                SnapsToDevicePixels="True">
+                           <InkCanvas x:Name="WorkspaceInkCanvas"
+                                      EditingMode="None"
+                                      VerticalAlignment="Top"
+                                      Background="{DynamicResource BackgroundBrush}"/>
+                       </Viewbox>
+                   </Border>
+               </ScrollViewer>
+          </Grid>
+
+           <Grid x:Name="CalendarHost" Grid.Row="1" Visibility="Collapsed">
+               <Border Background="{DynamicResource BackgroundBrush}"
+                       BorderBrush="{DynamicResource BorderBrush}"
+                       BorderThickness="1"
+                       CornerRadius="8"/>
+
+               <Grid Margin="16">
+                   <Grid.ColumnDefinitions>
+                       <ColumnDefinition x:Name="CalendarSidebarColumn" Width="0"/>
+                       <ColumnDefinition Width="12"/>
+                       <ColumnDefinition Width="*"/>
+                   </Grid.ColumnDefinitions>
+
+                   <Border x:Name="CalendarSidebarPanel"
+                           Grid.Column="0"
+                           Visibility="Collapsed"
+                           Padding="0"
+                           Style="{StaticResource CalendarCardBorderStyle}"
+                           Background="{DynamicResource TeiBluePastelSanftBrush}"
+                           VerticalAlignment="Stretch">
+                       <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                     HorizontalScrollBarVisibility="Disabled"
+                                     Padding="16"
+                                     VerticalAlignment="Stretch">
+                       <Grid>
+                           <Grid.RowDefinitions>
+                               <RowDefinition Height="Auto"/>
+                               <RowDefinition Height="12"/>
+                               <RowDefinition Height="Auto"/>
+                               <RowDefinition Height="16"/>
+                               <RowDefinition Height="Auto"/>
+                               <RowDefinition Height="8"/>
+                               <RowDefinition Height="Auto"/>
+                               <RowDefinition Height="8"/>
+                               <RowDefinition Height="Auto"/>
+                               <RowDefinition Height="8"/>
+                               <RowDefinition Height="Auto"/>
+                               <RowDefinition Height="8"/>
+                               <RowDefinition Height="Auto"/>
+                               <RowDefinition Height="16"/>
+                               <RowDefinition Height="Auto"/>
+                               <RowDefinition Height="8"/>
+                               <RowDefinition Height="Auto"/>
+                               <RowDefinition Height="8"/>
+                               <RowDefinition Height="Auto"/>
+                               <RowDefinition Height="8"/>
+                               <RowDefinition Height="Auto"/>
+                               <RowDefinition Height="8"/>
+                               <RowDefinition Height="Auto"/>
+                           </Grid.RowDefinitions>
+
+                           <TextBlock Grid.Row="0"
+                                      Text="Kalender"
+                                      Style="{StaticResource CalendarPanelTitleTextStyle}"
+                                      VerticalAlignment="Center"/>
+
+                           <Calendar x:Name="CalendarSidebarMiniCalendar"
+                                     Grid.Row="2"
+                                     HorizontalAlignment="Center"
+                                     SelectionMode="SingleDate"
+                                     IsTodayHighlighted="True"/>
+
+                           <TextBlock Grid.Row="4"
+                                      Text="Meine Kalender"
+                                      Style="{StaticResource CalendarPanelSubTitleTextStyle}"/>
+
+                           <StackPanel Grid.Row="6">
+                               <CheckBox x:Name="CalendarCheckAlleKalender"
+                                         Content="Alle Kalender"
+                                         IsChecked="True"
+                                         Style="{StaticResource CalendarSidebarCheckBoxStyle}"/>
+                               <CheckBox x:Name="CalendarCheckSchule"
+                                         Content="Schule"
+                                         IsChecked="True"
+                                         Style="{StaticResource CalendarSidebarCheckBoxStyle}"/>
+                               <CheckBox x:Name="CalendarCheckPrivat"
+                                         Content="Privat"
+                                         IsChecked="False"
+                                         Style="{StaticResource CalendarSidebarCheckBoxStyle}"/>
+                           </StackPanel>
+
+                           <Button Grid.Row="8"
+                                   Content="Kalender erstellen"
+                                   Click="CalendarCreateButton_Click"
+                                   Style="{StaticResource CalendarSidebarActionButtonStyle}"/>
+                           <Button Grid.Row="10"
+                                   Content="Kalender bearbeiten"
+                                   Click="CalendarEditButton_Click"
+                                   Style="{StaticResource CalendarSidebarActionButtonStyle}"/>
+                           <Button Grid.Row="12"
+                                   Content="Kalender löschen"
+                                   Click="CalendarDeleteButton_Click"
+                                   Style="{StaticResource CalendarSidebarActionButtonStyle}"/>
+
+                           <TextBlock Grid.Row="14"
+                                      Text="Meine Kategorien"
+                                      Style="{StaticResource CalendarPanelSubTitleTextStyle}"/>
+
+                           <StackPanel Grid.Row="16">
+                               <CheckBox x:Name="CalendarCategoryCheckHausaufgabe"
+                                         Content="Hausaufgabe"
+                                         IsChecked="True"
+                                         Style="{StaticResource CalendarSidebarCheckBoxStyle}"/>
+                               <CheckBox x:Name="CalendarCategoryCheckPrufung"
+                                         Content="Prüfung"
+                                         IsChecked="True"
+                                         Style="{StaticResource CalendarSidebarCheckBoxStyle}"/>
+                               <CheckBox x:Name="CalendarCategoryCheckPersoenlichesZiel"
+                                         Content="Persönliches Ziel"
+                                         IsChecked="True"
+                                         Style="{StaticResource CalendarSidebarCheckBoxStyle}"/>
+                           </StackPanel>
+
+                           <Button Grid.Row="18"
+                                   Content="Kategorie erstellen"
+                                   Click="CalendarCategoryCreateButton_Click"
+                                   Style="{StaticResource CalendarSidebarActionButtonStyle}"/>
+                           <Button Grid.Row="20"
+                                   Content="Kategorie bearbeiten"
+                                   Click="CalendarCategoryEditButton_Click"
+                                   Style="{StaticResource CalendarSidebarActionButtonStyle}"/>
+                           <Button Grid.Row="22"
+                                   Content="Kategorie löschen"
+                                   Click="CalendarCategoryDeleteButton_Click"
+                                   Style="{StaticResource CalendarSidebarActionButtonStyle}"/>
+                       </Grid>
+                       </ScrollViewer>
+                   </Border>
+
+                   <Grid x:Name="CalendarContentHost" Grid.Column="2">
+                       <Grid.RowDefinitions>
+                           <RowDefinition Height="Auto"/>
+                           <RowDefinition Height="12"/>
+                           <RowDefinition Height="*"/>
+                       </Grid.RowDefinitions>
+
+                   <Border Grid.Row="0"
+                           Padding="12,10"
+                           Style="{StaticResource CalendarCardBorderStyle}"
+                           Background="{DynamicResource TeiCyanPastelSanftBrush}">
+                       <Grid>
+                           <Grid.ColumnDefinitions>
+                               <ColumnDefinition Width="Auto"/>
+                               <ColumnDefinition Width="12"/>
+                               <ColumnDefinition Width="Auto"/>
+                               <ColumnDefinition Width="8"/>
+                               <ColumnDefinition Width="Auto"/>
+                               <ColumnDefinition Width="*"/>
+                               <ColumnDefinition Width="Auto"/>
+                           </Grid.ColumnDefinitions>
+
+                           <Button x:Name="CalendarHamburgerButton"
+                                   Grid.Column="0"
+                                   Width="36"
+                                   Height="36"
+                                   ToolTip="Kalender-Menü ein- oder ausklappen"
+                                   Click="CalendarHamburgerButton_Click"
+                                   Style="{StaticResource CalendarIconToolButtonStyle}">
+                               <TextBlock Text="&#xE700;"
+                                          FontFamily="Segoe MDL2 Assets"
+                                          FontSize="16"
+                                          Foreground="{DynamicResource TextBrush}"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                           </Button>
+
+                           <TextBlock x:Name="CalendarMonthText"
+                                      Grid.Column="2"
+                                      VerticalAlignment="Center"
+                                      FontSize="{StaticResource FontSizeL}"
+                                      FontWeight="{StaticResource FontWeightSemiBold}"
+                                      Foreground="{DynamicResource TextBrush}"
+                                      Text="Januar"/>
+
+                           <StackPanel Grid.Column="4"
+                                       Orientation="Horizontal"
+                                       VerticalAlignment="Center">
+                               <TextBlock VerticalAlignment="Center"
+                                          Margin="0,0,8,0"
+                                          Foreground="{DynamicResource BorderBrush}"
+                                          Text="|"/>
+                               <Button x:Name="CalendarYearBackButton"
+                                       Width="28"
+                                       Height="28"
+                                       Margin="0,0,2,0"
+                                       ToolTip="Vorheriges Jahr"
+                                       Click="CalendarYearBackButton_Click"
+                                       Style="{StaticResource CalendarIconToolButtonStyle}">
+                                   <TextBlock Text="&#xE76B;"
+                                              FontFamily="Segoe MDL2 Assets"
+                                              Foreground="{DynamicResource TextBrush}"/>
+                               </Button>
+                               <TextBlock x:Name="CalendarYearText"
+                                          VerticalAlignment="Center"
+                                          Margin="4,0"
+                                          FontSize="{StaticResource FontSizeL}"
+                                          FontWeight="{StaticResource FontWeightSemiBold}"
+                                          Foreground="{DynamicResource TextBrush}"
+                                          Text="2026"/>
+                               <Button x:Name="CalendarYearForwardButton"
+                                       Width="28"
+                                       Height="28"
+                                       Margin="2,0,2,0"
+                                       ToolTip="Nächstes Jahr"
+                                       Click="CalendarYearForwardButton_Click"
+                                       Style="{StaticResource CalendarIconToolButtonStyle}">
+                                   <TextBlock Text="&#xE76C;"
+                                              FontFamily="Segoe MDL2 Assets"
+                                              Foreground="{DynamicResource TextBrush}"/>
+                               </Button>
+                               <Button x:Name="CalendarYearDropdownButton"
+                                       Width="28"
+                                       Height="28"
+                                       Margin="2,0,0,0"
+                                       ToolTip="Jahresauswahl"
+                                       Click="CalendarYearDropdownButton_Click"
+                                       Style="{StaticResource CalendarIconToolButtonStyle}">
+                                   <TextBlock Text="&#xE70D;"
+                                              FontFamily="Segoe MDL2 Assets"
+                                              Foreground="{DynamicResource TextBrush}"/>
+                               </Button>
+                           </StackPanel>
+
+                           <Border Grid.Column="6"
+                                   Padding="3"
+                                   CornerRadius="6"
+                                   Background="{DynamicResource TeiBluePastelSanftBrush}"
+                                   BorderBrush="{DynamicResource BorderBrush}"
+                                   BorderThickness="1"
+                                   VerticalAlignment="Center">
+                           <StackPanel Orientation="Horizontal">
+                               <Button x:Name="CalendarDayModeButton"
+                                       Content="Tag"
+                                       Click="CalendarDayModeButton_Click"
+                                       Style="{StaticResource CalendarViewModeButtonStyle}"/>
+                               <Button x:Name="CalendarWeekModeButton"
+                                       Content="Woche"
+                                       Margin="2,0,2,0"
+                                       Click="CalendarWeekModeButton_Click"
+                                       Style="{StaticResource CalendarViewModeButtonStyle}"/>
+                               <Button x:Name="CalendarMonthModeButton"
+                                       Content="Monat"
+                                       Click="CalendarMonthModeButton_Click"
+                                       Style="{StaticResource CalendarViewModeButtonStyle}"/>
+                           </StackPanel>
+                           </Border>
+                       </Grid>
+                   </Border>
+
+                   <Popup x:Name="CalendarYearDropdownPanel"
+                          Grid.RowSpan="3"
+                          PlacementTarget="{Binding ElementName=CalendarYearDropdownButton}"
+                          Placement="Bottom"
+                          StaysOpen="False"
+                          AllowsTransparency="True"
+                          PopupAnimation="Fade">
+                       <Border Width="130"
+                               MaxHeight="220"
+                               Margin="0,6,0,0"
+                               Style="{StaticResource CalendarCardBorderStyle}">
+                           <ListBox x:Name="CalendarYearListBox"
+                                    BorderThickness="0"
+                                    ScrollViewer.ScrollChanged="CalendarYearListBox_OnScrollChanged"
+                                    SelectionChanged="CalendarYearListBox_OnSelectionChanged"
+                                    ItemContainerStyle="{StaticResource CalendarYearListBoxItemStyle}"/>
+                       </Border>
+                   </Popup>
+
+                   <Border Grid.Row="2"
+                           Padding="12"
+                           Style="{StaticResource CalendarCardBorderStyle}">
+                       <Grid>
+                           <Grid x:Name="DayViewHost" Visibility="Collapsed">
+                               <Grid.RowDefinitions>
+                                   <RowDefinition Height="Auto"/>
+                                   <RowDefinition Height="*"/>
+                               </Grid.RowDefinitions>
+                               <TextBlock Text="Tagesansicht"
+                                          Style="{StaticResource CalendarViewSectionTitleStyle}"/>
+                               <ScrollViewer Grid.Row="1"
+                                             VerticalScrollBarVisibility="Auto"
+                                             HorizontalScrollBarVisibility="Disabled">
+                                   <UniformGrid Rows="24" Columns="1" MinHeight="720">
+                                       <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="6,4" Text="00:00"/></Border>
+                                       <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="6,4" Text="01:00"/></Border>
+                                       <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="6,4" Text="02:00"/></Border>
+                                       <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="6,4" Text="03:00"/></Border>
+                                       <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="6,4" Text="04:00"/></Border>
+                                       <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="6,4" Text="05:00"/></Border>
+                                       <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="6,4" Text="06:00"/></Border>
+                                       <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="6,4" Text="07:00"/></Border>
+                                       <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="6,4" Text="08:00"/></Border>
+                                       <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="6,4" Text="09:00"/></Border>
+                                       <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="6,4" Text="10:00"/></Border>
+                                       <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="6,4" Text="11:00"/></Border>
+                                       <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="6,4" Text="12:00"/></Border>
+                                       <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="6,4" Text="13:00"/></Border>
+                                       <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="6,4" Text="14:00"/></Border>
+                                       <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="6,4" Text="15:00"/></Border>
+                                       <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="6,4" Text="16:00"/></Border>
+                                       <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="6,4" Text="17:00"/></Border>
+                                       <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="6,4" Text="18:00"/></Border>
+                                       <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="6,4" Text="19:00"/></Border>
+                                       <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="6,4" Text="20:00"/></Border>
+                                       <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="6,4" Text="21:00"/></Border>
+                                       <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="6,4" Text="22:00"/></Border>
+                                       <Border BorderThickness="0"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="6,4" Text="23:00"/></Border>
+                                   </UniformGrid>
+                               </ScrollViewer>
+                           </Grid>
+
+                           <Grid x:Name="WeekViewHost" Visibility="Collapsed">
+                               <Grid.RowDefinitions>
+                                   <RowDefinition Height="Auto"/>
+                                   <RowDefinition Height="*"/>
+                               </Grid.RowDefinitions>
+                               <TextBlock Text="Wochenansicht"
+                                          Style="{StaticResource CalendarViewSectionTitleStyle}"/>
+                               <Grid Grid.Row="1">
+                                   <Grid.RowDefinitions>
+                                       <RowDefinition Height="Auto"/>
+                                       <RowDefinition Height="*"/>
+                                   </Grid.RowDefinitions>
+
+                                   <ScrollViewer x:Name="WeekViewBodyScrollViewer"
+                                                 Grid.Row="1"
+                                                 VerticalScrollBarVisibility="Auto"
+                                                 HorizontalScrollBarVisibility="Disabled">
+                                   <Grid MinHeight="960">
+                                       <Grid.ColumnDefinitions>
+                                           <ColumnDefinition Width="66"/>
+                                           <ColumnDefinition Width="*"/>
+                                       </Grid.ColumnDefinitions>
+
+                                       <Border Grid.Column="0" Style="{StaticResource CalendarTimeColumnBackgroundStyle}">
+                                       <UniformGrid Rows="24" Columns="1">
+                                           <Border BorderThickness="1,0,1,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="4,2" HorizontalAlignment="Right" Text="00:00"/></Border>
+                                           <Border BorderThickness="1,0,1,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="4,2" HorizontalAlignment="Right" Text="01:00"/></Border>
+                                           <Border BorderThickness="1,0,1,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="4,2" HorizontalAlignment="Right" Text="02:00"/></Border>
+                                           <Border BorderThickness="1,0,1,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="4,2" HorizontalAlignment="Right" Text="03:00"/></Border>
+                                           <Border BorderThickness="1,0,1,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="4,2" HorizontalAlignment="Right" Text="04:00"/></Border>
+                                           <Border BorderThickness="1,0,1,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="4,2" HorizontalAlignment="Right" Text="05:00"/></Border>
+                                           <Border BorderThickness="1,0,1,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="4,2" HorizontalAlignment="Right" Text="06:00"/></Border>
+                                           <Border BorderThickness="1,0,1,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="4,2" HorizontalAlignment="Right" Text="07:00"/></Border>
+                                           <Border BorderThickness="1,0,1,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="4,2" HorizontalAlignment="Right" Text="08:00"/></Border>
+                                           <Border BorderThickness="1,0,1,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="4,2" HorizontalAlignment="Right" Text="09:00"/></Border>
+                                           <Border BorderThickness="1,0,1,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="4,2" HorizontalAlignment="Right" Text="10:00"/></Border>
+                                           <Border BorderThickness="1,0,1,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="4,2" HorizontalAlignment="Right" Text="11:00"/></Border>
+                                           <Border BorderThickness="1,0,1,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="4,2" HorizontalAlignment="Right" Text="12:00"/></Border>
+                                           <Border BorderThickness="1,0,1,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="4,2" HorizontalAlignment="Right" Text="13:00"/></Border>
+                                           <Border BorderThickness="1,0,1,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="4,2" HorizontalAlignment="Right" Text="14:00"/></Border>
+                                           <Border BorderThickness="1,0,1,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="4,2" HorizontalAlignment="Right" Text="15:00"/></Border>
+                                           <Border BorderThickness="1,0,1,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="4,2" HorizontalAlignment="Right" Text="16:00"/></Border>
+                                           <Border BorderThickness="1,0,1,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="4,2" HorizontalAlignment="Right" Text="17:00"/></Border>
+                                           <Border BorderThickness="1,0,1,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="4,2" HorizontalAlignment="Right" Text="18:00"/></Border>
+                                           <Border BorderThickness="1,0,1,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="4,2" HorizontalAlignment="Right" Text="19:00"/></Border>
+                                           <Border BorderThickness="1,0,1,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="4,2" HorizontalAlignment="Right" Text="20:00"/></Border>
+                                           <Border BorderThickness="1,0,1,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="4,2" HorizontalAlignment="Right" Text="21:00"/></Border>
+                                           <Border BorderThickness="1,0,1,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="4,2" HorizontalAlignment="Right" Text="22:00"/></Border>
+                                           <Border BorderThickness="1,0,1,1" BorderBrush="{DynamicResource BorderBrush}"><TextBlock Style="{StaticResource CalendarTimeLabelTextStyle}" Margin="4,2" HorizontalAlignment="Right" Text="23:00"/></Border>
+                                       </UniformGrid>
+                                       </Border>
+
+                                       <UniformGrid Grid.Column="1" Rows="24" Columns="7">
+                                           <Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/>
+                                           <Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/>
+                                           <Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/>
+                                           <Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/>
+                                           <Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/>
+                                           <Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/>
+                                           <Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/>
+                                           <Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/>
+                                           <Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/>
+                                           <Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/>
+                                           <Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/>
+                                           <Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/>
+                                           <Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/>
+                                           <Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/>
+                                           <Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/>
+                                           <Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/>
+                                           <Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/>
+                                           <Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/>
+                                           <Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/>
+                                           <Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/>
+                                           <Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/>
+                                           <Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/>
+                                           <Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/>
+                                           <Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/><Border BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}"/>
+                                       </UniformGrid>
+                                   </Grid>
+                                   </ScrollViewer>
+                                   <Grid Grid.Row="0"
+                                         HorizontalAlignment="Left"
+                                         Width="{Binding ViewportWidth, ElementName=WeekViewBodyScrollViewer}">
+                                       <Grid.ColumnDefinitions>
+                                           <ColumnDefinition Width="66"/>
+                                           <ColumnDefinition Width="*"/>
+                                           <ColumnDefinition Width="*"/>
+                                           <ColumnDefinition Width="*"/>
+                                           <ColumnDefinition Width="*"/>
+                                           <ColumnDefinition Width="*"/>
+                                           <ColumnDefinition Width="*"/>
+                                           <ColumnDefinition Width="*"/>
+                                       </Grid.ColumnDefinitions>
+                                       <Border Grid.Column="0" Style="{StaticResource CalendarWeekdayHeaderCellStyle}"/>
+                                       <Border Grid.Column="1" Style="{StaticResource CalendarWeekdayHeaderCellStyle}">
+                                           <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4"
+                                                      FontSize="{StaticResource FontSizeXS}" FontWeight="{StaticResource FontWeightSemiBold}"
+                                                      Foreground="{DynamicResource TextBrush}" Text="Mo"/>
+                                       </Border>
+                                       <Border Grid.Column="2" Style="{StaticResource CalendarWeekdayHeaderCellStyle}">
+                                           <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4"
+                                                      FontSize="{StaticResource FontSizeXS}" FontWeight="{StaticResource FontWeightSemiBold}"
+                                                      Foreground="{DynamicResource TextBrush}" Text="Di"/>
+                                       </Border>
+                                       <Border Grid.Column="3" Style="{StaticResource CalendarWeekdayHeaderCellStyle}">
+                                           <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4"
+                                                      FontSize="{StaticResource FontSizeXS}" FontWeight="{StaticResource FontWeightSemiBold}"
+                                                      Foreground="{DynamicResource TextBrush}" Text="Mi"/>
+                                       </Border>
+                                       <Border Grid.Column="4" Style="{StaticResource CalendarWeekdayHeaderCellStyle}">
+                                           <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4"
+                                                      FontSize="{StaticResource FontSizeXS}" FontWeight="{StaticResource FontWeightSemiBold}"
+                                                      Foreground="{DynamicResource TextBrush}" Text="Do"/>
+                                       </Border>
+                                       <Border Grid.Column="5" Style="{StaticResource CalendarWeekdayHeaderCellStyle}">
+                                           <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4"
+                                                      FontSize="{StaticResource FontSizeXS}" FontWeight="{StaticResource FontWeightSemiBold}"
+                                                      Foreground="{DynamicResource TextBrush}" Text="Fr"/>
+                                       </Border>
+                                       <Border Grid.Column="6" Style="{StaticResource CalendarWeekendHeaderCellStyle}">
+                                           <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4"
+                                                      FontSize="{StaticResource FontSizeXS}" FontWeight="{StaticResource FontWeightSemiBold}"
+                                                      Foreground="{DynamicResource TextBrush}" Text="Sa"/>
+                                       </Border>
+                                       <Border Grid.Column="7" Style="{StaticResource CalendarWeekendHeaderCellStyle}">
+                                           <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4"
+                                                      FontSize="{StaticResource FontSizeXS}" FontWeight="{StaticResource FontWeightSemiBold}"
+                                                      Foreground="{DynamicResource TextBrush}" Text="So"/>
+                                       </Border>
+                                   </Grid>
+                               </Grid>
+                           </Grid>
+
+                           <Grid x:Name="MonthViewHost" Visibility="Collapsed">
+                               <Grid.RowDefinitions>
+                                   <RowDefinition Height="Auto"/>
+                                   <RowDefinition Height="Auto"/>
+                                   <RowDefinition Height="*"/>
+                               </Grid.RowDefinitions>
+                               <TextBlock Text="Monatsansicht"
+                                          Style="{StaticResource CalendarViewSectionTitleStyle}"/>
+                               <Grid Grid.Row="1" Margin="0,8,0,0">
+                                   <Grid.ColumnDefinitions>
+                                       <ColumnDefinition Width="*"/>
+                                       <ColumnDefinition Width="*"/>
+                                       <ColumnDefinition Width="*"/>
+                                       <ColumnDefinition Width="*"/>
+                                       <ColumnDefinition Width="*"/>
+                                       <ColumnDefinition Width="*"/>
+                                       <ColumnDefinition Width="*"/>
+                                   </Grid.ColumnDefinitions>
+                                   <Border Grid.Column="0" Style="{StaticResource CalendarWeekdayHeaderCellStyle}">
+                                       <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4"
+                                                  FontSize="{StaticResource FontSizeXS}" FontWeight="{StaticResource FontWeightSemiBold}"
+                                                  Foreground="{DynamicResource TextBrush}" Text="Mo"/>
+                                   </Border>
+                                   <Border Grid.Column="1" Style="{StaticResource CalendarWeekdayHeaderCellStyle}">
+                                       <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4"
+                                                  FontSize="{StaticResource FontSizeXS}" FontWeight="{StaticResource FontWeightSemiBold}"
+                                                  Foreground="{DynamicResource TextBrush}" Text="Di"/>
+                                   </Border>
+                                   <Border Grid.Column="2" Style="{StaticResource CalendarWeekdayHeaderCellStyle}">
+                                       <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4"
+                                                  FontSize="{StaticResource FontSizeXS}" FontWeight="{StaticResource FontWeightSemiBold}"
+                                                  Foreground="{DynamicResource TextBrush}" Text="Mi"/>
+                                   </Border>
+                                   <Border Grid.Column="3" Style="{StaticResource CalendarWeekdayHeaderCellStyle}">
+                                       <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4"
+                                                  FontSize="{StaticResource FontSizeXS}" FontWeight="{StaticResource FontWeightSemiBold}"
+                                                  Foreground="{DynamicResource TextBrush}" Text="Do"/>
+                                   </Border>
+                                   <Border Grid.Column="4" Style="{StaticResource CalendarWeekdayHeaderCellStyle}">
+                                       <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4"
+                                                  FontSize="{StaticResource FontSizeXS}" FontWeight="{StaticResource FontWeightSemiBold}"
+                                                  Foreground="{DynamicResource TextBrush}" Text="Fr"/>
+                                   </Border>
+                                   <Border Grid.Column="5" Style="{StaticResource CalendarWeekendHeaderCellStyle}">
+                                       <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4"
+                                                  FontSize="{StaticResource FontSizeXS}" FontWeight="{StaticResource FontWeightSemiBold}"
+                                                  Foreground="{DynamicResource TextBrush}" Text="Sa"/>
+                                   </Border>
+                                   <Border Grid.Column="6" Style="{StaticResource CalendarWeekendHeaderCellStyle}">
+                                       <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Margin="4"
+                                                  FontSize="{StaticResource FontSizeXS}" FontWeight="{StaticResource FontWeightSemiBold}"
+                                                  Foreground="{DynamicResource TextBrush}" Text="So"/>
+                                   </Border>
+                               </Grid>
+                               <UniformGrid x:Name="CalendarMonthDayCellsHost"
+                                            Grid.Row="2"
+                                            Margin="0,0,0,0"
+                                            Rows="6"
+                                            Columns="7"/>
+                           </Grid>
+                       </Grid>
+                   </Border>
+
+                   <Canvas Grid.RowSpan="3"
+                           Panel.ZIndex="20">
+                      <Border x:Name="CalendarInteractionPanel"
+                              Width="372"
+                              MinHeight="480"
+                              MaxHeight="560"
+                              Canvas.Left="80"
+                              Canvas.Top="50"
+                              Background="{DynamicResource BackgroundBrush}"
+                              CornerRadius="12"
+                              Visibility="Collapsed"
+                              Cursor="Arrow">
+                           <Border.Effect>
+                               <DropShadowEffect BlurRadius="24"
+                                                 ShadowDepth="0"
+                                                 Opacity="0.14"
+                                                 Direction="270"
+                                                 Color="#1A1D24"/>
+                           </Border.Effect>
+                           <Grid>
+                              <Grid.RowDefinitions>
+                                  <RowDefinition Height="Auto"/>
+                                  <RowDefinition Height="*"/>
+                              </Grid.RowDefinitions>
+
+                              <Border x:Name="CalendarInteractionPanelDragHeader"
+                                      Grid.Row="0"
+                                      Background="{StaticResource CalendarEventHeaderGradientBrush}"
+                                      BorderBrush="{DynamicResource TeiCyanPastelBrush}"
+                                      BorderThickness="0,0,0,1"
+                                      CornerRadius="12,12,0,0"
+                                      Cursor="SizeAll"
+                                      Padding="12,10"
+                                      MouseLeftButtonDown="CalendarInteractionPanel_MouseLeftButtonDown"
+                                      MouseMove="CalendarInteractionPanel_MouseMove"
+                                      MouseLeftButtonUp="CalendarInteractionPanel_MouseLeftButtonUp"
+                                      LostMouseCapture="CalendarInteractionPanelDragHeader_LostMouseCapture">
+                                  <Grid>
+                                      <StackPanel Orientation="Horizontal"
+                                                  VerticalAlignment="Center"
+                                                  HorizontalAlignment="Left"
+                                                  Margin="0,0,40,0">
+                                          <Border Width="36" Height="36"
+                                                  CornerRadius="8"
+                                                  Background="{DynamicResource BackgroundBrush}"
+                                                  BorderBrush="{DynamicResource TeiCyanPastelBrush}"
+                                                  BorderThickness="1"
+                                                  VerticalAlignment="Center">
+                                              <TextBlock Text="&#xE787;"
+                                                         FontFamily="Segoe MDL2 Assets"
+                                                         FontSize="18"
+                                                         Foreground="{DynamicResource TeiCyanBrush}"
+                                                         HorizontalAlignment="Center"
+                                                         VerticalAlignment="Center"/>
+                                          </Border>
+                                          <StackPanel Margin="12,0,0,0" VerticalAlignment="Center">
+                                              <TextBlock Text="Neues Ereignis"
+                                                         FontFamily="{StaticResource PrimaryFontFamily}"
+                                                         FontSize="{StaticResource FontSizeM}"
+                                                         FontWeight="{StaticResource FontWeightSemiBold}"
+                                                         Foreground="{DynamicResource TextBrush}"/>
+                                              <TextBlock Text="Kurz festhalten, klar im Kalender"
+                                                         Style="{StaticResource CalendarEventFormIntroTextStyle}"
+                                                         Margin="0,2,0,0"
+                                                         Opacity="0.95"/>
+                                          </StackPanel>
+                                      </StackPanel>
+                                      <Button HorizontalAlignment="Right"
+                                              VerticalAlignment="Top"
+                                              Style="{StaticResource CalendarEventHeaderCloseButtonStyle}"
+                                              ToolTip="Schließen"
+                                              Click="CalendarInteractionCloseButton_Click"/>
+                                  </Grid>
+                              </Border>
+
+                              <ScrollViewer Grid.Row="1"
+                                            Background="{DynamicResource TeiBluePastelSanftBrush}"
+                                            VerticalScrollBarVisibility="Auto"
+                                            HorizontalScrollBarVisibility="Disabled"
+                                            Padding="0,1,0,0">
+                                  <StackPanel Margin="20,16,20,20">
+                                      <TextBlock Text="Titel" Style="{StaticResource CalendarEventFormLabelStyle}"/>
+                                      <Border Style="{StaticResource CalendarEventFieldShellStyle}" Margin="0,0,0,16">
+                                          <TextBox x:Name="CalendarInteractionNameTextBox"
+                                                   Style="{StaticResource CalendarEventTextBoxStyle}"/>
+                                      </Border>
+
+                                      <TextBlock Text="Kalender" Style="{StaticResource CalendarEventFormLabelStyle}"/>
+                                      <ComboBox x:Name="CalendarInteractionCalendarComboBox"
+                                                HorizontalAlignment="Stretch"
+                                                Style="{StaticResource SettingsComboBoxStyle}"
+                                                MinHeight="40"
+                                                Margin="0,0,0,16"/>
+
+                                      <TextBlock Text="Kategorie" Style="{StaticResource CalendarEventFormLabelStyle}"/>
+                                      <ComboBox x:Name="CalendarInteractionTypeComboBox"
+                                                HorizontalAlignment="Stretch"
+                                                Style="{StaticResource SettingsComboBoxStyle}"
+                                                MinHeight="40"
+                                                Margin="0,0,0,20"/>
+
+                                      <TextBlock Text="Wann" Style="{StaticResource CalendarEventSectionHeaderStyle}"/>
+                                      <TextBlock Text="Von (Datum)" Style="{StaticResource CalendarEventFormLabelStyle}"/>
+                                      <DatePicker x:Name="CalendarInteractionDatePicker"
+                                                  xml:lang="de-DE"
+                                                  Style="{StaticResource CalendarEventDatePickerStyle}"
+                                                  MinHeight="40"
+                                                  Margin="0,0,0,10"
+                                                  SelectedDateFormat="Long"
+                                                  HorizontalAlignment="Stretch"
+                                                  ToolTip="Startdatum wählen"
+                                                  SelectedDateChanged="CalendarInteractionDateRange_Changed"/>
+
+                                      <TextBlock Text="Bis (Datum)" Style="{StaticResource CalendarEventFormLabelStyle}"/>
+                                      <DatePicker x:Name="CalendarInteractionEndDatePicker"
+                                                  xml:lang="de-DE"
+                                                  Style="{StaticResource CalendarEventDatePickerStyle}"
+                                                  MinHeight="40"
+                                                  Margin="0,0,0,10"
+                                                  SelectedDateFormat="Long"
+                                                  HorizontalAlignment="Stretch"
+                                                  ToolTip="Enddatum wählen (mehrere Tage)"
+                                                  SelectedDateChanged="CalendarInteractionDateRange_Changed"/>
+
+                                      <TextBlock Text="Startzeit" Style="{StaticResource CalendarEventFormLabelStyle}"/>
+                                      <Border Style="{StaticResource CalendarEventTimeGroupStyle}" Margin="0,0,0,10">
+                                          <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                                              <ComboBox x:Name="CalendarInteractionHourComboBox"
+                                                        Style="{StaticResource SettingsComboBoxStyle}"
+                                                        MinWidth="72"
+                                                        MinHeight="40"
+                                                        VerticalAlignment="Center"/>
+                                              <TextBlock Text=":"
+                                                         VerticalAlignment="Center"
+                                                         FontSize="20"
+                                                         Foreground="{DynamicResource TeiCyanBrush}"
+                                                         FontWeight="{StaticResource FontWeightSemiBold}"
+                                                         Margin="10,0"/>
+                                              <ComboBox x:Name="CalendarInteractionMinuteComboBox"
+                                                        Style="{StaticResource SettingsComboBoxStyle}"
+                                                        MinWidth="72"
+                                                        MinHeight="40"
+                                                        VerticalAlignment="Center"/>
+                                          </StackPanel>
+                                      </Border>
+
+                                      <TextBlock Text="Endzeit" Style="{StaticResource CalendarEventFormLabelStyle}"/>
+                                      <Border Style="{StaticResource CalendarEventTimeGroupStyle}" Margin="0,0,0,12">
+                                          <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                                              <ComboBox x:Name="CalendarInteractionEndHourComboBox"
+                                                        Style="{StaticResource SettingsComboBoxStyle}"
+                                                        MinWidth="72"
+                                                        MinHeight="40"
+                                                        VerticalAlignment="Center"/>
+                                              <TextBlock Text=":"
+                                                         VerticalAlignment="Center"
+                                                         FontSize="20"
+                                                         Foreground="{DynamicResource TeiCyanBrush}"
+                                                         FontWeight="{StaticResource FontWeightSemiBold}"
+                                                         Margin="10,0"/>
+                                              <ComboBox x:Name="CalendarInteractionEndMinuteComboBox"
+                                                        Style="{StaticResource SettingsComboBoxStyle}"
+                                                        MinWidth="72"
+                                                        MinHeight="40"
+                                                        VerticalAlignment="Center"/>
+                                          </StackPanel>
+                                      </Border>
+
+                                      <CheckBox x:Name="CalendarInteractionAllDayCheckBox"
+                                                Style="{StaticResource CalendarEventCheckBoxStyle}"
+                                                Margin="0,4,0,20"
+                                                Content="Ganzer Tag"
+                                                Checked="CalendarInteractionAllDayCheckBox_Checked"
+                                                Unchecked="CalendarInteractionAllDayCheckBox_Checked"/>
+
+                                      <TextBlock Text="Verknüpfen" Style="{StaticResource CalendarEventSectionHeaderStyle}" Margin="0,8,0,8"/>
+
+                                      <Button x:Name="CalendarInteractionLinkEventButton"
+                                              Margin="0,0,0,10"
+                                              Click="CalendarInteractionLinkEventButton_Click"
+                                              Style="{StaticResource CalendarInteractionLinkButtonStyle}">
+                                          <StackPanel Orientation="Horizontal">
+                                              <TextBlock Text="&#xE163;"
+                                                         FontFamily="Segoe MDL2 Assets"
+                                                         FontSize="14"
+                                                         Foreground="{DynamicResource TeiCyanBrush}"
+                                                         VerticalAlignment="Center"
+                                                         Margin="0,0,10,0"/>
+                                              <TextBlock Text="Ereignis verknüpfen"
+                                                         VerticalAlignment="Center"
+                                                         Foreground="{DynamicResource TeiCyanBrush}"
+                                                         FontSize="{StaticResource FontSizeS}"/>
+                                          </StackPanel>
+                                      </Button>
+                                      <Button x:Name="CalendarInteractionLinkGoalButton"
+                                              Click="CalendarInteractionLinkGoalButton_Click"
+                                              Style="{StaticResource CalendarInteractionLinkButtonStyle}">
+                                          <StackPanel Orientation="Horizontal">
+                                              <TextBlock Text="&#xE71B;"
+                                                         FontFamily="Segoe MDL2 Assets"
+                                                         FontSize="14"
+                                                         Foreground="{DynamicResource TeiCyanBrush}"
+                                                         VerticalAlignment="Center"
+                                                         Margin="0,0,10,0"/>
+                                              <TextBlock Text="Projekt verknüpfen"
+                                                         VerticalAlignment="Center"
+                                                         Foreground="{DynamicResource TeiCyanBrush}"
+                                                         FontSize="{StaticResource FontSizeS}"/>
+                                          </StackPanel>
+                                      </Button>
+
+                                      <Button x:Name="CalendarInteractionCreateButton"
+                                              Content="Erstellen"
+                                              HorizontalAlignment="Stretch"
+                                              Margin="0,20,0,0"
+                                              Style="{StaticResource CalendarEventCreateButtonStyle}"/>
+                                  </StackPanel>
+                              </ScrollViewer>
+                           </Grid>
+                       </Border>
+                   </Canvas>
+                   </Grid>
+               </Grid>
+           </Grid>
+        </Grid>
+
+        <Grid HorizontalAlignment="Center"
+              VerticalAlignment="Bottom"
+              Margin="0,0,0,20"
+              Panel.ZIndex="50">
+            <Grid.Resources>
+                <Style x:Key="WorkspaceToolbarButtonStyle" TargetType="Button">
+                    <EventSetter Event="PreviewMouseLeftButtonDown"
+                                 Handler="WorkspaceToolbarButton_PreviewMouseLeftButtonDown"/>
+                    <EventSetter Event="MouseEnter"
+                                 Handler="WorkspaceToolbarButton_MouseEnter"/>
+                    <EventSetter Event="MouseLeave"
+                                 Handler="WorkspaceToolbarButton_MouseLeave"/>
+                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Width" Value="44"/>
+                    <Setter Property="Height" Value="38"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource TeiCyanBrush}"/>
+                    <Setter Property="Tag" Value="0"/>
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}"
+                                        CornerRadius="{TemplateBinding Tag}"
+                                        ClipToBounds="True">
+                                    <Grid>
+                                        <ContentPresenter HorizontalAlignment="Center"
+                                                          VerticalAlignment="Center"/>
+                                        <Ellipse x:Name="RippleEllipse"
+                                                 Width="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
+                                                 Height="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
+                                                 Fill="{TemplateBinding BorderBrush}"
+                                                 HorizontalAlignment="Left"
+                                                 VerticalAlignment="Top"
+                                                 Opacity="0"
+                                                 IsHitTestVisible="False"
+                                                 RenderTransformOrigin="0.5,0.5">
+                                            <Ellipse.RenderTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform x:Name="RippleScaleTransform" ScaleX="0" ScaleY="0"/>
+                                                    <TranslateTransform x:Name="RippleTranslateTransform" X="0" Y="0"/>
+                                                </TransformGroup>
+                                            </Ellipse.RenderTransform>
+                                        </Ellipse>
+                                    </Grid>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+
+                <Style x:Key="WorkspaceToolbarLeftButtonStyle"
+                       TargetType="Button"
+                       BasedOn="{StaticResource WorkspaceToolbarButtonStyle}">
+                    <Setter Property="Tag" Value="11,0,0,11"/>
+                </Style>
+
+                <Style x:Key="WorkspaceToolbarMiddleButtonStyle"
+                       TargetType="Button"
+                       BasedOn="{StaticResource WorkspaceToolbarButtonStyle}"/>
+
+                <Style x:Key="WorkspaceToolbarRightButtonStyle"
+                       TargetType="Button"
+                       BasedOn="{StaticResource WorkspaceToolbarButtonStyle}">
+                    <Setter Property="Tag" Value="0,11,11,0"/>
+                </Style>
+            </Grid.Resources>
+
+            <ToggleButton x:Name="ToolbarToggleButton"
+                          Width="30"
+                          Height="24"
+                          VerticalAlignment="Bottom"
+                          HorizontalAlignment="Center"
+                          Margin="0,0,0,52"
+                          Background="Transparent"
+                          BorderBrush="Transparent"
+                          BorderThickness="0"
+                          Cursor="Hand"
+                          IsChecked="True"
+                          ToolTip="Leiste ein-/ausklappen">
+                <ToggleButton.Template>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <TextBlock x:Name="ToolbarToggleIcon"
+                                   Text="&#xE70E;"
+                                   FontFamily="Segoe MDL2 Assets"
+                                   FontSize="12"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Foreground="Black"/>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="ToolbarToggleIcon" Property="Text" Value="&#xE70D;"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ToolbarToggleIcon" Property="Foreground" Value="{DynamicResource TeiCyanBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </ToggleButton.Template>
+                <ToggleButton.Triggers>
+                    <EventTrigger RoutedEvent="ToggleButton.Checked">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="ToolbarSlideTransform"
+                                                 Storyboard.TargetProperty="Y"
+                                                 To="0"
+                                                 Duration="0:0:0.3">
+                                    <DoubleAnimation.EasingFunction>
+                                        <CubicEase EasingMode="EaseOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                                <DoubleAnimation Storyboard.TargetName="ToolbarPanel"
+                                                 Storyboard.TargetProperty="Opacity"
+                                                 To="1"
+                                                 Duration="0:0:0.25"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="ToolbarSlideTransform"
+                                                 Storyboard.TargetProperty="Y"
+                                                 To="90"
+                                                 Duration="0:0:0.38">
+                                    <DoubleAnimation.EasingFunction>
+                                        <CubicEase EasingMode="EaseInOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ToolbarPanel"
+                                                               Storyboard.TargetProperty="Opacity">
+                                    <LinearDoubleKeyFrame KeyTime="0:0:0.18" Value="1"/>
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.38" Value="0">
+                                        <EasingDoubleKeyFrame.EasingFunction>
+                                            <QuadraticEase EasingMode="EaseIn"/>
+                                        </EasingDoubleKeyFrame.EasingFunction>
+                                    </EasingDoubleKeyFrame>
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </ToggleButton.Triggers>
+            </ToggleButton>
+
+            <Border x:Name="ToolbarPanel"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Background="White"
+                    BorderBrush="Black"
+                    BorderThickness="1"
+                    CornerRadius="11"
+                    Opacity="1">
+                <Border.RenderTransform>
+                    <TranslateTransform x:Name="ToolbarSlideTransform" Y="0"/>
+                </Border.RenderTransform>
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10"
+                                      ShadowDepth="2"
+                                      Direction="270"
+                                      Opacity="0.22"
+                                      Color="Black"/>
+                </Border.Effect>
+                <Border Margin="3"
+                        CornerRadius="8"
+                        ClipToBounds="True">
+                    <StackPanel Orientation="Horizontal">
+                            <Button x:Name="CreateScratchpadCell"
+                                    Style="{StaticResource WorkspaceToolbarLeftButtonStyle}"
+                                    ToolTip="Schmierblatt erstellen">
+                                <TextBlock Text="&#xE70B;"
+                                           FontFamily="Segoe MDL2 Assets"
+                                           FontSize="18"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Foreground="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}"/>
+                            </Button>
+
+                            <Border Width="1" Background="Black"/>
+
+                            <Button x:Name="CreateFileCell"
+                                    Style="{StaticResource WorkspaceToolbarMiddleButtonStyle}"
+                                    ToolTip="Datei erstellen"
+                                    Click="CreateFileButton_Click">
+                                <TextBlock Text="&#xE8A5;"
+                                           FontFamily="Segoe MDL2 Assets"
+                                           FontSize="17"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Foreground="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}"/>
+                            </Button>
+
+                            <Border Width="1" Background="Black"/>
+
+                            <Button x:Name="CreateFolderCell"
+                                    Style="{StaticResource WorkspaceToolbarMiddleButtonStyle}"
+                                    ToolTip="Ordner erstellen"
+                                    Click="CreateFolderButton_Click">
+                                <TextBlock Text="&#xE838;"
+                                           FontFamily="Segoe MDL2 Assets"
+                                           FontSize="18"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Foreground="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}"/>
+                            </Button>
+
+                            <Border Width="1" Background="Black"/>
+
+                            <Button x:Name="CameraCell"
+                                    Style="{StaticResource WorkspaceToolbarMiddleButtonStyle}"
+                                    ToolTip="Kamera">
+                                <TextBlock Text="&#xE722;"
+                                           FontFamily="Segoe MDL2 Assets"
+                                           FontSize="18"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Foreground="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}"/>
+                            </Button>
+
+                            <Border Width="1" Background="Black"/>
+
+                            <Button x:Name="MicrophoneCell"
+                                    Style="{StaticResource WorkspaceToolbarRightButtonStyle}"
+                                    ToolTip="Mikrofon">
+                                <TextBlock Text="&#xE720;"
+                                           FontFamily="Segoe MDL2 Assets"
+                                           FontSize="18"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Foreground="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}"/>
+                            </Button>
+                        </StackPanel>
+                </Border>
+            </Border>
+        </Grid>
+
+        <Button x:Name="LuaButton"
+                Width="52"
+                Height="52"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Margin="0,0,20,92"
+                BorderThickness="1"
+                Foreground="Black"
+                Cursor="Hand"
+                ToolTip="Lua"
+                Panel.ZIndex="50">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="BorderBrush" Value="Black"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BorderBrush" Value="{DynamicResource TeiCyanBrush}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="LuaButtonBorder"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="26">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="6"
+                                              ShadowDepth="1"
+                                              Direction="315"
+                                              Opacity="0.30"
+                                              Color="Black"/>
+                        </Border.Effect>
+                        <ContentPresenter HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Stretch"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="LuaButtonBorder" Property="Effect" Value="{x:Null}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+            <Viewbox Stretch="Fill">
+                <Grid Width="100" Height="100">
+                    <Ellipse Fill="White"/>
+                    <Path Data="M34.1968 31.334C34.4775 31.334 34.7625 31.7551 35.1155 32.6036C35.3282 33.0311 35.6089 33.4522 35.543 33.8095C35.4771 34.1668 35.056 34.4475 34.6221 35.1621"
+                          StrokeThickness="2"
+                          StrokeStartLineCap="Round"
+                          StrokeEndLineCap="Round">
+                        <Path.Style>
+                            <Style TargetType="Path">
+                                <Setter Property="Stroke" Value="Black"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=IsMouseOver}" Value="True">
+                                        <Setter Property="Stroke" Value="{DynamicResource TeiCyanBrush}"/>
+                                        <Setter Property="Effect">
+                                            <Setter.Value>
+                                                <DropShadowEffect BlurRadius="6" ShadowDepth="0" Color="#44F7FF" Opacity="0.95"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Path.Style>
+                    </Path>
+                    <Path Data="M67.7988 29.207C68.0796 29.207 68.5049 29.6281 69.0004 30.4767C69.2152 30.9042 69.3556 31.3252 69.4279 32.3142C69.5002 33.3031 69.5002 34.8471 69.0749 36.4379"
+                          StrokeThickness="2"
+                          StrokeStartLineCap="Round"
+                          StrokeEndLineCap="Round">
+                        <Path.Style>
+                            <Style TargetType="Path">
+                                <Setter Property="Stroke" Value="Black"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=IsMouseOver}" Value="True">
+                                        <Setter Property="Stroke" Value="{DynamicResource TeiCyanBrush}"/>
+                                        <Setter Property="Effect">
+                                            <Setter.Value>
+                                                <DropShadowEffect BlurRadius="6" ShadowDepth="0" Color="#44F7FF" Opacity="0.95"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Path.Style>
+                    </Path>
+                    <Path Data="M29.5181 61.9585C30.7856 62.8007 33.6184 65.3528 36.5958 66.9861C38.7996 68.195 40.5685 68.6194 42.3422 69.1872C44.376 69.8384 51.9932 70.04 56.8039 69.334C58.8837 69.0287 60.5596 68.0579 62.2631 67.1371C63.864 66.2717 65.6638 65.6505 68.4966 64.1618C71.0086 62.8417 73.1753 60.9717 74.9533 59.7659C75.3106 59.4107 75.5913 58.9896 75.9465 58.7025C76.3016 58.4154 76.7227 58.275 78.0072 57.7051"
+                          StrokeThickness="2"
+                          StrokeStartLineCap="Round"
+                          StrokeEndLineCap="Round">
+                        <Path.Style>
+                            <Style TargetType="Path">
+                                <Setter Property="Stroke" Value="Black"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=IsMouseOver}" Value="True">
+                                        <Setter Property="Stroke" Value="{DynamicResource TeiCyanBrush}"/>
+                                        <Setter Property="Effect">
+                                            <Setter.Value>
+                                                <DropShadowEffect BlurRadius="6" ShadowDepth="0" Color="#44F7FF" Opacity="0.95"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Path.Style>
+                    </Path>
+                    <Path Data="M57.165 42.3926C57.165 42.6733 57.165 43.8005 57.0246 45.4997C56.6036 46.6375 55.8932 47.3521 55.0447 47.9178C54.6172 48.2028 54.1961 48.4835 53.3369 49.1981"
+                          StrokeThickness="2"
+                          StrokeStartLineCap="Round"
+                          StrokeEndLineCap="Round">
+                        <Path.Style>
+                            <Style TargetType="Path">
+                                <Setter Property="Stroke" Value="Black"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=IsMouseOver}" Value="True">
+                                        <Setter Property="Stroke" Value="{DynamicResource TeiCyanBrush}"/>
+                                        <Setter Property="Effect">
+                                            <Setter.Value>
+                                                <DropShadowEffect BlurRadius="6" ShadowDepth="0" Color="#44F7FF" Opacity="0.95"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Path.Style>
+                    </Path>
+                </Grid>
+            </Viewbox>
+        </Button>
+
+       <Button x:Name="CalendarButton"
+               Width="52"
+                Height="52"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Margin="0,0,20,28"
+                BorderThickness="1"
+                Foreground="Black"
+                Cursor="Hand"
+               Panel.ZIndex="50"
+               Click="CalendarButton_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="BorderBrush" Value="Black"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource TeiGreenPastelSanftBrush}"/>
+                            <Setter Property="BorderBrush" Value="{DynamicResource TeiGreenBrush}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="CalendarButtonBorder"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="26">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="6"
+                                              ShadowDepth="1"
+                                              Direction="315"
+                                              Opacity="0.30"
+                                              Color="Black"/>
+                        </Border.Effect>
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="CalendarButtonBorder" Property="Effect" Value="{x:Null}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+            <TextBlock x:Name="CalendarButtonIcon"
+                       Text="&#xE787;"
+                       FontFamily="Segoe MDL2 Assets"
+                       FontSize="20">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Foreground" Value="Black"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=IsMouseOver}" Value="True">
+                                <Setter Property="Foreground" Value="{DynamicResource TeiGreenBrush}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </Button>
+    </Grid>
+</UserControl>

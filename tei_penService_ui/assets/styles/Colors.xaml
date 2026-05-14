@@ -1,0 +1,39 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Logo-Farben (tei Brand) - Original -->
+    <Color x:Key="TeiBlue">#7B99F4</Color>
+    <Color x:Key="TeiYellow">#FFBF20</Color>
+    <Color x:Key="TeiGreen">#488B36</Color>
+    <Color x:Key="TeiCyan">#0082CD</Color>
+
+    <!-- Logo-Farben (tei Brand) - Pastellig für UI -->
+    <Color x:Key="TeiBluePastel">#A8C0F8</Color>
+    <Color x:Key="TeiYellowPastel">#FFCA52</Color>
+    <Color x:Key="TeiGreenPastel">#7BC869</Color>
+    <Color x:Key="TeiCyanPastel">#4DB3E0</Color>
+
+    <!-- Logo-Farben (tei Brand) - Pastellig-Sanft (wie Schimmer auf leicht getöntem Glas) -->
+    <Color x:Key="TeiBluePastelSanft">#E8ECFC</Color>
+    <Color x:Key="TeiYellowPastelSanft">#FFF4E0</Color>
+    <Color x:Key="TeiGreenPastelSanft">#E5F2E3</Color>
+    <Color x:Key="TeiCyanPastelSanft">#E0F0F5</Color>
+
+    <!-- Basis-Farben (nach Erscheinungsbild) -->
+    <Color x:Key="Weiß">#FFFFFF</Color>
+    <Color x:Key="Schwarz">#000000</Color>
+    <Color x:Key="Mittelgrau">#757575</Color>
+    <Color x:Key="Hellgrau">#BDBDBD</Color>
+    <Color x:Key="GrauHell">#E0E0E0</Color>
+    <Color x:Key="GrauSehrHell">#F0F0F0</Color>
+    <Color x:Key="Dunkelgrau">#2D2D2D</Color>
+    <Color x:Key="DunkelgrauHell">#3D3D3D</Color>
+    <Color x:Key="DunkelgrauBlau">#1A1D24</Color>
+    <Color x:Key="GrauBlau">#4A5466</Color>
+    <Color x:Key="GrauBlauHell">#5B6B8F</Color>
+    <Color x:Key="GrauMittel">#808080</Color>
+    <Color x:Key="GrauInaktiv">#B5B5B5</Color>
+    <Color x:Key="RotPastell">#E57373</Color>
+    <Color x:Key="Beige">#F5F5DC</Color>
+
+</ResourceDictionary>

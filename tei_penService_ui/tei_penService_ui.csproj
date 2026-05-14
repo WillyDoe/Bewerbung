@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <LangVersion>8.0</LangVersion>
+    <RuntimeIdentifiers>win;win-x64;win-x86</RuntimeIdentifiers>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F8469E1B-E6CE-42EA-A199-9F89BE4BF74D}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>tei_penService_ui</RootNamespace>
+    <AssemblyName>tei_penService_ui</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetPlatformVersion>10.0.26100.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </ApplicationDefinition>
+    <!-- Automatisches Einbinden aller XAML-Seiten (Pages) -->
+    <Page Include="**\*.xaml" Exclude="App.xaml;Assets\**\*.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <!-- Automatisches Einbinden aller Code-Behind-Dateien für XAML -->
+    <Compile Include="**\*.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <!-- Basisklasse für Pen-Controls (ohne XAML); dünne Ableitungen (Standard/Paired/Connected) -->
+    <Compile Include="Controls\AppWide\PenControl\PenControlBase.cs" />
+    <Compile Include="Controls\AppWide\PenControl\StandardPenControl.cs" />
+    <Compile Include="Controls\AppWide\PenControl\PairedPenControl.cs" />
+    <Compile Include="Controls\AppWide\PenControl\ConnectedPenControl.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Automatisches Einbinden aller C#-Dateien im Services-Ordner (ausgenommen .xaml.cs) -->
+    <Compile Include="Services\**\*.cs" Exclude="Services\**\*.xaml.cs" />
+    <!-- Automatisches Einbinden aller C#-Dateien im Events-Ordner (ausgenommen .xaml.cs) -->
+    <Compile Include="Events\**\*.cs" Exclude="Events\**\*.xaml.cs" />
+    <!-- Automatisches Einbinden aller C#-Dateien im Converters-Ordner (ausgenommen .xaml.cs) -->
+    <Compile Include="Converters\**\*.cs" Exclude="Converters\**\*.xaml.cs" />
+    <!-- Automatisches Einbinden aller C#-Dateien im Models-Ordner -->
+    <Compile Include="Models\**\*.cs" />
+    <Compile Include="Utilities\**\*.cs" />
+    <!-- Automatisches Einbinden aller C#-Dateien im ViewModels-Ordner (ausgenommen .xaml.cs) -->
+    <Compile Include="ViewModels\**\*.cs" Exclude="ViewModels\**\*.xaml.cs" />
+    <!-- Automatisches Einbinden aller C#-Dateien im Interfaces-Ordner (ausgenommen .xaml.cs) -->
+    <Compile Include="Interfaces\**\*.cs" Exclude="Interfaces\**\*.xaml.cs" />
+    <!-- MainWindow-Partials (zweite Ebene: Theme, TitleBar, Bluetooth, PenList, Navigation, Helpers) -->
+    <Compile Include="MainWindowPartial\Theme\MainWindow.Theme.cs" />
+    <Compile Include="MainWindowPartial\TitleBar\MainWindow.TitleBar.cs" />
+    <Compile Include="MainWindowPartial\Bluetooth\MainWindow.Bluetooth.cs" />
+    <Compile Include="MainWindowPartial\PenList\MainWindow.PenList.cs" />
+    <Compile Include="MainWindowPartial\Navigation\MainWindow.Navigation.cs" />
+    <Compile Include="MainWindowPartial\Helpers\MainWindow.Helpers.cs" />
+    <Compile Include="Helpers\**\*.cs" />
+    <!-- Attached properties für Styles (z. B. TitleBar-Button-Hover) -->
+    <Compile Include="Assets\styles\AttachedProperties\**\*.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Automatisches Einbinden aller XAML-Dateien in Assets (Styles, Images, etc.) -->
+    <Page Include="Assets\**\*.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Icons als Resource einbinden (Build Action: Resource, Copy to Output Directory: Do not copy) -->
+    <Resource Include="Assets\Images\ico\tei_logo_16.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\ico\tei_logo_32.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\ico\tei_logo_48.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\ico\tei_logo_64.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\ico\tei_logo_96.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\ico\tei_logo_128.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\ico\tei_logo_256.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\tei_penServiceConnectionManager.Lib\tei_penServiceConnectionManager.Lib.csproj">
+      <Project>{B2C3D4E5-F6A7-8901-BCDE-F12345678901}</Project>
+      <Name>tei_penServiceConnectionManager.Lib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Neosmartpen.Net">
+      <HintPath>..\Windows-SDK2.0-master\Windows-SDK2.0-master\Neosmartpen.Net\bin\Debug\Neosmartpen.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.26100.1742" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
